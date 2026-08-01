@@ -1,0 +1,42 @@
+{
+	"schemaVersion": 1,
+	"name": "video-player",
+	"displayName": "Video Player",
+	"version": "0.1.0",
+	"description": "Plays workspace video files in place when a video is opened.",
+	"compatibility": {
+		"bonoboPluginRuntime": "1"
+	},
+	"events": [],
+	"pages": [],
+	"fileViews": [
+		{
+			"id": "player",
+			"title": "Video player",
+			"entry": "dist/frontend/index.html",
+			"contentTypes": ["video/mp4", "video/webm", "video/ogg"]
+		}
+	],
+	"capabilities": ["workspace.files.read"],
+	"outboundOrigins": [],
+	"files": [
+		{
+			"path": "dist/frontend/index.html",
+			"sha256": "sha256:ff5c37471a366f3538ad36dca56132ae0a01eef2a029ed14e67df94a83569cd3",
+			"bytes": 365,
+			"contentType": "text/html"
+		},
+		{
+			"path": "dist/frontend/assets/index.js",
+			"sha256": "sha256:26d29a5c3ad436f7fe435dc536611189b00d5eae5689c05eddb81eeea317d614",
+			"bytes": 667999,
+			"contentType": "application/javascript"
+		},
+		{
+			"path": "dist/frontend/assets/index.css",
+			"sha256": "sha256:eac30c5226f7764d6b07ffb281416a95618d3963203c5cbd5dc6f53313b4db41",
+			"bytes": 2186,
+			"contentType": "text/css"
+		}
+	]
+}
