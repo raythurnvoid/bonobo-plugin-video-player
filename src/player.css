@@ -107,9 +107,11 @@ body {
 	padding: 16px;
 }
 
+/* Fill the stage in both directions so low-resolution videos scale up instead of rendering
+   at their tiny intrinsic size; object-fit keeps the aspect ratio. */
 .player-video {
-	max-width: 100%;
-	max-height: 100%;
+	width: 100%;
+	height: 100%;
 	object-fit: contain;
 	border-radius: 4px;
 }
