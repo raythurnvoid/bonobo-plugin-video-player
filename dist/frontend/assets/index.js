@@ -1,5 +1,35 @@
 //#region \0rolldown/runtime.js
+var __create = Object.create;
+var __defProp$12 = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __commonJSMin = (cb, mod) => () => (mod || (cb((mod = { exports: {} }).exports, mod), (cb = null)), mod.exports);
+var __copyProps = (to, from, except, desc) => {
+	if ((from && typeof from === "object") || typeof from === "function")
+		for (var keys = __getOwnPropNames(from), i = 0, n = keys.length, key; i < n; i++) {
+			key = keys[i];
+			if (!__hasOwnProp.call(to, key) && key !== except)
+				__defProp$12(to, key, {
+					get: ((k) => from[k]).bind(null, key),
+					enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable,
+				});
+		}
+	return to;
+};
+var __toESM = (mod, isNodeMode, target) => (
+	(target = mod != null ? __create(__getProtoOf(mod)) : {}),
+	__copyProps(
+		isNodeMode || !mod || !mod.__esModule
+			? __defProp$12(target, "default", {
+					value: mod,
+					enumerable: true,
+				})
+			: target,
+		mod,
+	)
+);
 //#endregion
 //#region \0vite/modulepreload-polyfill.js
 (function polyfill() {
@@ -33,8 +63,490 @@ var __commonJSMin = (cb, mod) => () => (mod || (cb((mod = { exports: {} }).expor
 	}
 })();
 //#endregion
-//#region node_modules/.pnpm/convex@1.45.0_react@19.2.8/node_modules/convex/dist/esm/index.js
-var version = "1.45.0";
+//#region node_modules/.pnpm/react@19.2.8/node_modules/react/cjs/react.production.js
+/**
+ * @license React
+ * react.production.js
+ *
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+var require_react_production = /* @__PURE__ */ __commonJSMin((exports) => {
+	var REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element");
+	var REACT_PORTAL_TYPE = Symbol.for("react.portal");
+	var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
+	var REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode");
+	var REACT_PROFILER_TYPE = Symbol.for("react.profiler");
+	var REACT_CONSUMER_TYPE = Symbol.for("react.consumer");
+	var REACT_CONTEXT_TYPE = Symbol.for("react.context");
+	var REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref");
+	var REACT_SUSPENSE_TYPE = Symbol.for("react.suspense");
+	var REACT_MEMO_TYPE = Symbol.for("react.memo");
+	var REACT_LAZY_TYPE = Symbol.for("react.lazy");
+	var REACT_ACTIVITY_TYPE = Symbol.for("react.activity");
+	var MAYBE_ITERATOR_SYMBOL = Symbol.iterator;
+	function getIteratorFn(maybeIterable) {
+		if (null === maybeIterable || "object" !== typeof maybeIterable) return null;
+		maybeIterable = (MAYBE_ITERATOR_SYMBOL && maybeIterable[MAYBE_ITERATOR_SYMBOL]) || maybeIterable["@@iterator"];
+		return "function" === typeof maybeIterable ? maybeIterable : null;
+	}
+	var ReactNoopUpdateQueue = {
+		isMounted: function () {
+			return !1;
+		},
+		enqueueForceUpdate: function () {},
+		enqueueReplaceState: function () {},
+		enqueueSetState: function () {},
+	};
+	var assign = Object.assign;
+	var emptyObject = {};
+	function Component(props, context, updater) {
+		this.props = props;
+		this.context = context;
+		this.refs = emptyObject;
+		this.updater = updater || ReactNoopUpdateQueue;
+	}
+	Component.prototype.isReactComponent = {};
+	Component.prototype.setState = function (partialState, callback) {
+		if ("object" !== typeof partialState && "function" !== typeof partialState && null != partialState)
+			throw Error(
+				"takes an object of state variables to update or a function which returns an object of state variables.",
+			);
+		this.updater.enqueueSetState(this, partialState, callback, "setState");
+	};
+	Component.prototype.forceUpdate = function (callback) {
+		this.updater.enqueueForceUpdate(this, callback, "forceUpdate");
+	};
+	function ComponentDummy() {}
+	ComponentDummy.prototype = Component.prototype;
+	function PureComponent(props, context, updater) {
+		this.props = props;
+		this.context = context;
+		this.refs = emptyObject;
+		this.updater = updater || ReactNoopUpdateQueue;
+	}
+	var pureComponentPrototype = (PureComponent.prototype = new ComponentDummy());
+	pureComponentPrototype.constructor = PureComponent;
+	assign(pureComponentPrototype, Component.prototype);
+	pureComponentPrototype.isPureReactComponent = !0;
+	var isArrayImpl = Array.isArray;
+	function noop() {}
+	var ReactSharedInternals = {
+		H: null,
+		A: null,
+		T: null,
+		S: null,
+	};
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	function ReactElement(type, key, props) {
+		var refProp = props.ref;
+		return {
+			$$typeof: REACT_ELEMENT_TYPE,
+			type,
+			key,
+			ref: void 0 !== refProp ? refProp : null,
+			props,
+		};
+	}
+	function cloneAndReplaceKey(oldElement, newKey) {
+		return ReactElement(oldElement.type, newKey, oldElement.props);
+	}
+	function isValidElement(object) {
+		return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
+	}
+	function escape(key) {
+		var escaperLookup = {
+			"=": "=0",
+			":": "=2",
+		};
+		return (
+			"$" +
+			key.replace(/[=:]/g, function (match) {
+				return escaperLookup[match];
+			})
+		);
+	}
+	var userProvidedKeyEscapeRegex = /\/+/g;
+	function getElementKey(element, index) {
+		return "object" === typeof element && null !== element && null != element.key
+			? escape("" + element.key)
+			: index.toString(36);
+	}
+	function resolveThenable(thenable) {
+		switch (thenable.status) {
+			case "fulfilled":
+				return thenable.value;
+			case "rejected":
+				throw thenable.reason;
+			default:
+				switch (
+					("string" === typeof thenable.status
+						? thenable.then(noop, noop)
+						: ((thenable.status = "pending"),
+							thenable.then(
+								function (fulfilledValue) {
+									"pending" === thenable.status && ((thenable.status = "fulfilled"), (thenable.value = fulfilledValue));
+								},
+								function (error) {
+									"pending" === thenable.status && ((thenable.status = "rejected"), (thenable.reason = error));
+								},
+							)),
+					thenable.status)
+				) {
+					case "fulfilled":
+						return thenable.value;
+					case "rejected":
+						throw thenable.reason;
+				}
+		}
+		throw thenable;
+	}
+	function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
+		var type = typeof children;
+		if ("undefined" === type || "boolean" === type) children = null;
+		var invokeCallback = !1;
+		if (null === children) invokeCallback = !0;
+		else
+			switch (type) {
+				case "bigint":
+				case "string":
+				case "number":
+					invokeCallback = !0;
+					break;
+				case "object":
+					switch (children.$$typeof) {
+						case REACT_ELEMENT_TYPE:
+						case REACT_PORTAL_TYPE:
+							invokeCallback = !0;
+							break;
+						case REACT_LAZY_TYPE:
+							return (
+								(invokeCallback = children._init),
+								mapIntoArray(invokeCallback(children._payload), array, escapedPrefix, nameSoFar, callback)
+							);
+					}
+			}
+		if (invokeCallback)
+			return (
+				(callback = callback(children)),
+				(invokeCallback = "" === nameSoFar ? "." + getElementKey(children, 0) : nameSoFar),
+				isArrayImpl(callback)
+					? ((escapedPrefix = ""),
+						null != invokeCallback && (escapedPrefix = invokeCallback.replace(userProvidedKeyEscapeRegex, "$&/") + "/"),
+						mapIntoArray(callback, array, escapedPrefix, "", function (c) {
+							return c;
+						}))
+					: null != callback &&
+						(isValidElement(callback) &&
+							(callback = cloneAndReplaceKey(
+								callback,
+								escapedPrefix +
+									(null == callback.key || (children && children.key === callback.key)
+										? ""
+										: ("" + callback.key).replace(userProvidedKeyEscapeRegex, "$&/") + "/") +
+									invokeCallback,
+							)),
+						array.push(callback)),
+				1
+			);
+		invokeCallback = 0;
+		var nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + ":";
+		if (isArrayImpl(children))
+			for (var i = 0; i < children.length; i++)
+				((nameSoFar = children[i]),
+					(type = nextNamePrefix + getElementKey(nameSoFar, i)),
+					(invokeCallback += mapIntoArray(nameSoFar, array, escapedPrefix, type, callback)));
+		else if (((i = getIteratorFn(children)), "function" === typeof i))
+			for (children = i.call(children), i = 0; !(nameSoFar = children.next()).done; )
+				((nameSoFar = nameSoFar.value),
+					(type = nextNamePrefix + getElementKey(nameSoFar, i++)),
+					(invokeCallback += mapIntoArray(nameSoFar, array, escapedPrefix, type, callback)));
+		else if ("object" === type) {
+			if ("function" === typeof children.then)
+				return mapIntoArray(resolveThenable(children), array, escapedPrefix, nameSoFar, callback);
+			array = String(children);
+			throw Error(
+				"Objects are not valid as a React child (found: " +
+					("[object Object]" === array ? "object with keys {" + Object.keys(children).join(", ") + "}" : array) +
+					"). If you meant to render a collection of children, use an array instead.",
+			);
+		}
+		return invokeCallback;
+	}
+	function mapChildren(children, func, context) {
+		if (null == children) return children;
+		var result = [],
+			count = 0;
+		mapIntoArray(children, result, "", "", function (child) {
+			return func.call(context, child, count++);
+		});
+		return result;
+	}
+	function lazyInitializer(payload) {
+		if (-1 === payload._status) {
+			var ctor = payload._result;
+			ctor = ctor();
+			ctor.then(
+				function (moduleObject) {
+					if (0 === payload._status || -1 === payload._status)
+						((payload._status = 1), (payload._result = moduleObject));
+				},
+				function (error) {
+					if (0 === payload._status || -1 === payload._status) ((payload._status = 2), (payload._result = error));
+				},
+			);
+			-1 === payload._status && ((payload._status = 0), (payload._result = ctor));
+		}
+		if (1 === payload._status) return payload._result.default;
+		throw payload._result;
+	}
+	var reportGlobalError =
+		"function" === typeof reportError
+			? reportError
+			: function (error) {
+					if ("object" === typeof window && "function" === typeof window.ErrorEvent) {
+						var event = new window.ErrorEvent("error", {
+							bubbles: !0,
+							cancelable: !0,
+							message:
+								"object" === typeof error && null !== error && "string" === typeof error.message
+									? String(error.message)
+									: String(error),
+							error,
+						});
+						if (!window.dispatchEvent(event)) return;
+					} else if ("object" === typeof process && "function" === typeof process.emit) {
+						process.emit("uncaughtException", error);
+						return;
+					}
+					console.error(error);
+				};
+	var Children = {
+		map: mapChildren,
+		forEach: function (children, forEachFunc, forEachContext) {
+			mapChildren(
+				children,
+				function () {
+					forEachFunc.apply(this, arguments);
+				},
+				forEachContext,
+			);
+		},
+		count: function (children) {
+			var n = 0;
+			mapChildren(children, function () {
+				n++;
+			});
+			return n;
+		},
+		toArray: function (children) {
+			return (
+				mapChildren(children, function (child) {
+					return child;
+				}) || []
+			);
+		},
+		only: function (children) {
+			if (!isValidElement(children))
+				throw Error("React.Children.only expected to receive a single React element child.");
+			return children;
+		},
+	};
+	exports.Activity = REACT_ACTIVITY_TYPE;
+	exports.Children = Children;
+	exports.Component = Component;
+	exports.Fragment = REACT_FRAGMENT_TYPE;
+	exports.Profiler = REACT_PROFILER_TYPE;
+	exports.PureComponent = PureComponent;
+	exports.StrictMode = REACT_STRICT_MODE_TYPE;
+	exports.Suspense = REACT_SUSPENSE_TYPE;
+	exports.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = ReactSharedInternals;
+	exports.__COMPILER_RUNTIME = {
+		__proto__: null,
+		c: function (size) {
+			return ReactSharedInternals.H.useMemoCache(size);
+		},
+	};
+	exports.cache = function (fn) {
+		return function () {
+			return fn.apply(null, arguments);
+		};
+	};
+	exports.cacheSignal = function () {
+		return null;
+	};
+	exports.cloneElement = function (element, config, children) {
+		if (null === element || void 0 === element)
+			throw Error("The argument must be a React element, but you passed " + element + ".");
+		var props = assign({}, element.props),
+			key = element.key;
+		if (null != config)
+			for (propName in (void 0 !== config.key && (key = "" + config.key), config))
+				!hasOwnProperty.call(config, propName) ||
+					"key" === propName ||
+					"__self" === propName ||
+					"__source" === propName ||
+					("ref" === propName && void 0 === config.ref) ||
+					(props[propName] = config[propName]);
+		var propName = arguments.length - 2;
+		if (1 === propName) props.children = children;
+		else if (1 < propName) {
+			for (var childArray = Array(propName), i = 0; i < propName; i++) childArray[i] = arguments[i + 2];
+			props.children = childArray;
+		}
+		return ReactElement(element.type, key, props);
+	};
+	exports.createContext = function (defaultValue) {
+		defaultValue = {
+			$$typeof: REACT_CONTEXT_TYPE,
+			_currentValue: defaultValue,
+			_currentValue2: defaultValue,
+			_threadCount: 0,
+			Provider: null,
+			Consumer: null,
+		};
+		defaultValue.Provider = defaultValue;
+		defaultValue.Consumer = {
+			$$typeof: REACT_CONSUMER_TYPE,
+			_context: defaultValue,
+		};
+		return defaultValue;
+	};
+	exports.createElement = function (type, config, children) {
+		var propName,
+			props = {},
+			key = null;
+		if (null != config)
+			for (propName in (void 0 !== config.key && (key = "" + config.key), config))
+				hasOwnProperty.call(config, propName) &&
+					"key" !== propName &&
+					"__self" !== propName &&
+					"__source" !== propName &&
+					(props[propName] = config[propName]);
+		var childrenLength = arguments.length - 2;
+		if (1 === childrenLength) props.children = children;
+		else if (1 < childrenLength) {
+			for (var childArray = Array(childrenLength), i = 0; i < childrenLength; i++) childArray[i] = arguments[i + 2];
+			props.children = childArray;
+		}
+		if (type && type.defaultProps)
+			for (propName in ((childrenLength = type.defaultProps), childrenLength))
+				void 0 === props[propName] && (props[propName] = childrenLength[propName]);
+		return ReactElement(type, key, props);
+	};
+	exports.createRef = function () {
+		return { current: null };
+	};
+	exports.forwardRef = function (render) {
+		return {
+			$$typeof: REACT_FORWARD_REF_TYPE,
+			render,
+		};
+	};
+	exports.isValidElement = isValidElement;
+	exports.lazy = function (ctor) {
+		return {
+			$$typeof: REACT_LAZY_TYPE,
+			_payload: {
+				_status: -1,
+				_result: ctor,
+			},
+			_init: lazyInitializer,
+		};
+	};
+	exports.memo = function (type, compare) {
+		return {
+			$$typeof: REACT_MEMO_TYPE,
+			type,
+			compare: void 0 === compare ? null : compare,
+		};
+	};
+	exports.startTransition = function (scope) {
+		var prevTransition = ReactSharedInternals.T,
+			currentTransition = {};
+		ReactSharedInternals.T = currentTransition;
+		try {
+			var returnValue = scope(),
+				onStartTransitionFinish = ReactSharedInternals.S;
+			null !== onStartTransitionFinish && onStartTransitionFinish(currentTransition, returnValue);
+			"object" === typeof returnValue &&
+				null !== returnValue &&
+				"function" === typeof returnValue.then &&
+				returnValue.then(noop, reportGlobalError);
+		} catch (error) {
+			reportGlobalError(error);
+		} finally {
+			(null !== prevTransition && null !== currentTransition.types && (prevTransition.types = currentTransition.types),
+				(ReactSharedInternals.T = prevTransition));
+		}
+	};
+	exports.unstable_useCacheRefresh = function () {
+		return ReactSharedInternals.H.useCacheRefresh();
+	};
+	exports.use = function (usable) {
+		return ReactSharedInternals.H.use(usable);
+	};
+	exports.useActionState = function (action, initialState, permalink) {
+		return ReactSharedInternals.H.useActionState(action, initialState, permalink);
+	};
+	exports.useCallback = function (callback, deps) {
+		return ReactSharedInternals.H.useCallback(callback, deps);
+	};
+	exports.useContext = function (Context) {
+		return ReactSharedInternals.H.useContext(Context);
+	};
+	exports.useDebugValue = function () {};
+	exports.useDeferredValue = function (value, initialValue) {
+		return ReactSharedInternals.H.useDeferredValue(value, initialValue);
+	};
+	exports.useEffect = function (create, deps) {
+		return ReactSharedInternals.H.useEffect(create, deps);
+	};
+	exports.useEffectEvent = function (callback) {
+		return ReactSharedInternals.H.useEffectEvent(callback);
+	};
+	exports.useId = function () {
+		return ReactSharedInternals.H.useId();
+	};
+	exports.useImperativeHandle = function (ref, create, deps) {
+		return ReactSharedInternals.H.useImperativeHandle(ref, create, deps);
+	};
+	exports.useInsertionEffect = function (create, deps) {
+		return ReactSharedInternals.H.useInsertionEffect(create, deps);
+	};
+	exports.useLayoutEffect = function (create, deps) {
+		return ReactSharedInternals.H.useLayoutEffect(create, deps);
+	};
+	exports.useMemo = function (create, deps) {
+		return ReactSharedInternals.H.useMemo(create, deps);
+	};
+	exports.useOptimistic = function (passthrough, reducer) {
+		return ReactSharedInternals.H.useOptimistic(passthrough, reducer);
+	};
+	exports.useReducer = function (reducer, initialArg, init) {
+		return ReactSharedInternals.H.useReducer(reducer, initialArg, init);
+	};
+	exports.useRef = function (initialValue) {
+		return ReactSharedInternals.H.useRef(initialValue);
+	};
+	exports.useState = function (initialState) {
+		return ReactSharedInternals.H.useState(initialState);
+	};
+	exports.useSyncExternalStore = function (subscribe, getSnapshot, getServerSnapshot) {
+		return ReactSharedInternals.H.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+	};
+	exports.useTransition = function () {
+		return ReactSharedInternals.H.useTransition();
+	};
+	exports.version = "19.2.8";
+});
+//#endregion
+//#region node_modules/.pnpm/react@19.2.8/node_modules/react/index.js
+var require_react = /* @__PURE__ */ __commonJSMin((exports, module) => {
+	module.exports = require_react_production();
+});
 //#endregion
 //#region node_modules/.pnpm/convex@1.45.0_react@19.2.8/node_modules/convex/dist/esm/values/base64.js
 var lookup = [];
@@ -382,6 +894,9 @@ var ConvexError = class extends ((_b = Error), (_a = IDENTIFYING_FIELD), _b) {
 	}
 };
 //#endregion
+//#region node_modules/.pnpm/convex@1.45.0_react@19.2.8/node_modules/convex/dist/esm/index.js
+var version = "1.45.0";
+//#endregion
 //#region node_modules/.pnpm/convex@1.45.0_react@19.2.8/node_modules/convex/dist/esm/browser/logging.js
 var __defProp$10 = Object.defineProperty;
 var __defNormalProp$10 = (obj, key, value) =>
@@ -525,9 +1040,6 @@ function serializePaginatedPathAndArgs(udfPath, args, options) {
 			id,
 		}),
 	});
-}
-function serializedQueryTokenIsPaginated(token) {
-	return JSON.parse(token).type === "paginated";
 }
 //#endregion
 //#region node_modules/.pnpm/convex@1.45.0_react@19.2.8/node_modules/convex/dist/esm/browser/sync/local_state.js
@@ -3348,7 +3860,8 @@ var PaginatedQueryClient = class {
 	}
 };
 //#endregion
-//#region node_modules/.pnpm/convex@1.45.0_react@19.2.8/node_modules/convex/dist/esm/browser/simple_client.js
+//#region node_modules/.pnpm/convex@1.45.0_react@19.2.8/node_modules/convex/dist/esm/react/client.js
+var import_react = /* @__PURE__ */ __toESM(require_react(), 1);
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) =>
 	key in obj
@@ -3360,305 +3873,264 @@ var __defNormalProp = (obj, key, value) =>
 			})
 		: (obj[key] = value);
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
-var defaultWebSocketConstructor;
-var ConvexClient = class {
+var DEFAULT_EXTEND_SUBSCRIPTION_FOR = 5e3;
+if (typeof import_react.default === "undefined") throw new Error("Required dependency 'react' not found");
+var ConvexReactClient = class {
 	/**
-	 * Construct a client and immediately initiate a WebSocket connection to the passed address.
-	 *
-	 * @public
+	 * @param address - The url of your Convex deployment, often provided
+	 * by an environment variable. E.g. `https://small-mouse-123.convex.cloud`.
+	 * @param options - See {@link ConvexReactClientOptions} for a full description.
 	 */
-	constructor(address, options = {}) {
+	constructor(address, options) {
+		__publicField(this, "address");
+		__publicField(this, "cachedSync");
+		__publicField(this, "cachedPaginatedQueryClient");
 		__publicField(this, "listeners");
-		__publicField(this, "_client");
-		__publicField(this, "_paginatedClient");
-		__publicField(this, "callNewListenersWithCurrentValuesTimer");
-		__publicField(this, "_closed");
-		__publicField(this, "_disabled");
-		if (options.skipConvexDeploymentUrlCheck !== true) validateDeploymentUrl(address);
-		const { disabled, ...baseOptions } = options;
-		this._closed = false;
-		this._disabled = !!disabled;
-		if (defaultWebSocketConstructor && !("webSocketConstructor" in baseOptions) && typeof WebSocket === "undefined")
-			baseOptions.webSocketConstructor = defaultWebSocketConstructor;
-		if (typeof window === "undefined" && !("unsavedChangesWarning" in baseOptions))
-			baseOptions.unsavedChangesWarning = false;
-		if (!this.disabled) {
-			this._client = new BaseConvexClient(address, () => {}, baseOptions);
-			this._paginatedClient = new PaginatedQueryClient(this._client, (transition) => this._transition(transition));
-		}
-		this.listeners = /* @__PURE__ */ new Set();
+		__publicField(this, "options");
+		__publicField(this, "closed", false);
+		__publicField(this, "_logger");
+		__publicField(this, "adminAuth");
+		__publicField(this, "fakeUserIdentity");
+		if (address === void 0)
+			throw new Error(
+				"No address provided to ConvexReactClient.\nIf trying to deploy to production, make sure to follow all the instructions found at https://docs.convex.dev/production/hosting/\nIf running locally, make sure to run `convex dev` and ensure the .env.local file is populated.",
+			);
+		if (typeof address !== "string")
+			throw new Error(
+				`ConvexReactClient requires a URL like 'https://happy-otter-123.convex.cloud', received something of type ${typeof address} instead.`,
+			);
+		if (!address.includes("://")) throw new Error("Provided address was not an absolute URL.");
+		this.address = address;
+		this.listeners = /* @__PURE__ */ new Map();
+		this._logger =
+			options?.logger === false
+				? instantiateNoopLogger({ verbose: options?.verbose ?? false })
+				: options?.logger !== true && options?.logger
+					? options.logger
+					: instantiateDefaultLogger({ verbose: options?.verbose ?? false });
+		this.options = {
+			...options,
+			logger: this._logger,
+		};
 	}
 	/**
-	 * Once closed no registered callbacks will fire again.
+	 * Return the address for this client, useful for creating a new client.
+	 *
+	 * Not guaranteed to match the address with which this client was constructed:
+	 * it may be canonicalized.
 	 */
-	get closed() {
-		return this._closed;
-	}
-	get client() {
-		if (this._client) return this._client;
-		throw new Error("ConvexClient is disabled");
+	get url() {
+		return this.address;
 	}
 	/**
+	 * Lazily instantiate the `BaseConvexClient` so we don't create the WebSocket
+	 * when server-side rendering.
+	 *
 	 * @internal
 	 */
-	get paginatedClient() {
-		if (this._paginatedClient) return this._paginatedClient;
-		throw new Error("ConvexClient is disabled");
-	}
-	get disabled() {
-		return this._disabled;
-	}
-	/**
-	 * Call a callback whenever a new result for a query is received. The callback
-	 * will run soon after being registered if a result for the query is already
-	 * in memory.
-	 *
-	 * The return value is an {@link Unsubscribe} object which is both a function
-	 * an an object with properties. Both of the patterns below work with this object:
-	 *
-	 *```ts
-	 * // call the return value as a function
-	 * const unsubscribe = client.onUpdate(api.messages.list, {}, (messages) => {
-	 *   console.log(messages);
-	 * });
-	 * unsubscribe();
-	 *
-	 * // unpack the return value into its properties
-	 * const {
-	 *   getCurrentValue,
-	 *   unsubscribe,
-	 * } = client.onUpdate(api.messages.list, {}, (messages) => {
-	 *   console.log(messages);
-	 * });
-	 *```
-	 *
-	 * @param query - A {@link server.FunctionReference} for the public query to run.
-	 * @param args - The arguments to run the query with.
-	 * @param callback - Function to call when the query result updates.
-	 * @param onError - Function to call when the query result updates with an error.
-	 * If not provided, errors will be thrown instead of calling the callback.
-	 *
-	 * @return an {@link Unsubscribe} function to stop calling the onUpdate function.
-	 */
-	onUpdate(query, args, callback, onError) {
-		if (this.disabled) return this.createDisabledUnsubscribe();
-		const { queryToken, unsubscribe } = this.client.subscribe(getFunctionName(query), args);
-		const queryInfo = {
-			queryToken,
-			callback,
-			onError,
-			unsubscribe,
-			hasEverRun: false,
-			query,
-			args,
-			paginationOptions: void 0,
-		};
-		this.listeners.add(queryInfo);
-		if (this.queryResultReady(queryToken) && this.callNewListenersWithCurrentValuesTimer === void 0)
-			this.callNewListenersWithCurrentValuesTimer = setTimeout(() => this.callNewListenersWithCurrentValues(), 0);
-		const unsubscribeProps = {
-			unsubscribe: () => {
-				if (this.closed) return;
-				this.listeners.delete(queryInfo);
-				unsubscribe();
-			},
-			getCurrentValue: () => this.client.localQueryResultByToken(queryToken),
-			getQueryLogs: () => this.client.localQueryLogs(queryToken),
-		};
-		const ret = unsubscribeProps.unsubscribe;
-		Object.assign(ret, unsubscribeProps);
-		return ret;
-	}
-	/**
-	 * Call a callback whenever a new result for a paginated query is received.
-	 *
-	 * This is an experimental preview: the final API may change.
-	 * In particular, caching behavior, page splitting, and required paginated query options
-	 * may change.
-	 *
-	 * @param query - A {@link server.FunctionReference} for the public query to run.
-	 * @param args - The arguments to run the query with.
-	 * @param options - Options for the paginated query including initialNumItems and id.
-	 * @param callback - Function to call when the query result updates.
-	 * @param onError - Function to call when the query result updates with an error.
-	 *
-	 * @return an {@link Unsubscribe} function to stop calling the callback.
-	 */
-	onPaginatedUpdate_experimental(query, args, options, callback, onError) {
-		if (this.disabled) return this.createDisabledUnsubscribe();
-		const paginationOptions = {
-			initialNumItems: options.initialNumItems,
-			id: -1,
-		};
-		const { paginatedQueryToken, unsubscribe } = this.paginatedClient.subscribe(
-			getFunctionName(query),
-			args,
-			paginationOptions,
+	get sync() {
+		if (this.closed) throw new Error("ConvexReactClient has already been closed.");
+		if (this.cachedSync) return this.cachedSync;
+		this.cachedSync = this.options.baseClient ?? new BaseConvexClient(this.address, () => {}, this.options);
+		if (this.adminAuth) this.cachedSync.setAdminAuth(this.adminAuth, this.fakeUserIdentity);
+		this.cachedPaginatedQueryClient = new PaginatedQueryClient(this.cachedSync, (transition) =>
+			this.handleTransition(transition),
 		);
-		const queryInfo = {
-			queryToken: paginatedQueryToken,
-			callback,
-			onError,
-			unsubscribe,
-			hasEverRun: false,
-			query,
-			args,
-			paginationOptions,
-		};
-		this.listeners.add(queryInfo);
-		if (
-			!!this.paginatedClient.localQueryResultByToken(paginatedQueryToken) &&
-			this.callNewListenersWithCurrentValuesTimer === void 0
-		)
-			this.callNewListenersWithCurrentValuesTimer = setTimeout(() => this.callNewListenersWithCurrentValues(), 0);
-		const unsubscribeProps = {
-			unsubscribe: () => {
-				if (this.closed) return;
-				this.listeners.delete(queryInfo);
-				unsubscribe();
-			},
-			getCurrentValue: () => {
-				return this.paginatedClient.localQueryResult(getFunctionName(query), args, paginationOptions);
-			},
-			getQueryLogs: () => [],
-		};
-		const ret = unsubscribeProps.unsubscribe;
-		Object.assign(ret, unsubscribeProps);
-		return ret;
-	}
-	callNewListenersWithCurrentValues() {
-		this.callNewListenersWithCurrentValuesTimer = void 0;
-		this._transition(
-			{
-				queries: [],
-				paginatedQueries: [],
-			},
-			true,
-		);
-	}
-	queryResultReady(queryToken) {
-		return this.client.hasLocalQueryResultByToken(queryToken);
-	}
-	createDisabledUnsubscribe() {
-		const disabledUnsubscribe = () => {};
-		Object.assign(disabledUnsubscribe, {
-			unsubscribe: disabledUnsubscribe,
-			getCurrentValue: () => void 0,
-			getQueryLogs: () => void 0,
-		});
-		return disabledUnsubscribe;
-	}
-	async close() {
-		if (this.disabled) return;
-		this.listeners.clear();
-		this._closed = true;
-		if (this._paginatedClient) this._paginatedClient = void 0;
-		return this.client.close();
+		return this.cachedSync;
 	}
 	/**
-	 * Get the current JWT auth token and decoded claims.
+	 * Lazily instantiate the `PaginatedQueryClient` so we don't create it
+	 * when server-side rendering.
+	 *
+	 * @internal
 	 */
-	getAuth() {
-		if (this.disabled) return;
-		return this.client.getCurrentAuthClaims();
+	get paginatedQueryClient() {
+		this.sync;
+		if (this.cachedPaginatedQueryClient) return this.cachedPaginatedQueryClient;
+		throw new Error("Should already be instantiated");
 	}
 	/**
 	 * Set the authentication token to be used for subsequent queries and mutations.
 	 * `fetchToken` will be called automatically again if a token expires.
 	 * `fetchToken` should return `null` if the token cannot be retrieved, for example
 	 * when the user's rights were permanently revoked.
-	 * @param fetchToken - an async function returning the JWT (typically an OpenID Connect Identity Token)
+	 * @param fetchToken - an async function returning the JWT-encoded OpenID Connect Identity Token
 	 * @param onChange - a callback that will be called when the authentication status changes
+	 * @param onRefreshChange - a callback called with `true` when the socket is paused to fetch a replacement token after a server rejection, and `false` when refresh completes
 	 */
-	setAuth(fetchToken, onChange) {
-		if (this.disabled) return;
-		this.client.setAuth(fetchToken, onChange ?? (() => {}));
+	setAuth(fetchToken, onChange, onRefreshChange) {
+		if (typeof fetchToken === "string")
+			throw new Error(
+				"Passing a string to ConvexReactClient.setAuth is no longer supported, please upgrade to passing in an async function to handle reauthentication.",
+			);
+		this.sync.setAuth(fetchToken, onChange ?? (() => {}), onRefreshChange);
+	}
+	/**
+	 * Clear the current authentication token if set.
+	 */
+	clearAuth() {
+		this.sync.clearAuth();
 	}
 	/**
 	 * @internal
 	 */
 	setAdminAuth(token, identity) {
-		if (this.closed) throw new Error("ConvexClient has already been closed.");
-		if (this.disabled) return;
-		this.client.setAdminAuth(token, identity);
+		this.adminAuth = token;
+		this.fakeUserIdentity = identity;
+		if (this.closed) throw new Error("ConvexReactClient has already been closed.");
+		if (this.cachedSync) this.sync.setAdminAuth(token, identity);
 	}
 	/**
+	 * Construct a new {@link Watch} on a Convex query function.
+	 *
+	 * **Most application code should not call this method directly. Instead use
+	 * the {@link useQuery} hook.**
+	 *
+	 * The act of creating a watch does nothing, a Watch is stateless.
+	 *
+	 * @param query - A {@link server.FunctionReference} for the public query to run.
+	 * @param args - An arguments object for the query. If this is omitted,
+	 * the arguments will be `{}`.
+	 * @param options - A {@link WatchQueryOptions} options object for this query.
+	 *
+	 * @returns The {@link Watch} object.
+	 */
+	watchQuery(query, ...argsAndOptions) {
+		const [args, options] = argsAndOptions;
+		const name = getFunctionName(query);
+		return {
+			onUpdate: (callback) => {
+				const { queryToken, unsubscribe } = this.sync.subscribe(name, args, options);
+				const currentListeners = this.listeners.get(queryToken);
+				if (currentListeners !== void 0) currentListeners.add(callback);
+				else this.listeners.set(queryToken, /* @__PURE__ */ new Set([callback]));
+				return () => {
+					if (this.closed) return;
+					const currentListeners2 = this.listeners.get(queryToken);
+					currentListeners2.delete(callback);
+					if (currentListeners2.size === 0) this.listeners.delete(queryToken);
+					unsubscribe();
+				};
+			},
+			localQueryResult: () => {
+				if (this.cachedSync) return this.cachedSync.localQueryResult(name, args);
+			},
+			localQueryLogs: () => {
+				if (this.cachedSync) return this.cachedSync.localQueryLogs(name, args);
+			},
+			journal: () => {
+				if (this.cachedSync) return this.cachedSync.queryJournal(name, args);
+			},
+		};
+	}
+	/**
+	 * Indicates likely future interest in a query subscription.
+	 *
+	 * The implementation currently immediately subscribes to a query. In the future this method
+	 * may prioritize some queries over others, fetch the query result without subscribing, or
+	 * do nothing in slow network connections or high load scenarios.
+	 *
+	 * To use this in a React component, call useQuery() and ignore the return value.
+	 *
+	 * @param queryOptions - A query (function reference from an api object) and its args, plus
+	 * an optional extendSubscriptionFor for how long to subscribe to the query.
+	 */
+	prewarmQuery(queryOptions) {
+		const extendSubscriptionFor = queryOptions.extendSubscriptionFor ?? DEFAULT_EXTEND_SUBSCRIPTION_FOR;
+		const unsubscribe = this.watchQuery(queryOptions.query, queryOptions.args || {}).onUpdate(() => {});
+		setTimeout(unsubscribe, extendSubscriptionFor);
+	}
+	/**
+	 * Construct a new {@link PaginatedWatch} on a Convex paginated query function.
+	 *
+	 * **Most application code should not call this method directly. Instead use
+	 * the {@link usePaginatedQuery} hook.**
+	 *
+	 * The act of creating a watch does nothing, a Watch is stateless.
+	 *
+	 * @param query - A {@link server.FunctionReference} for the public query to run.
+	 * @param args - An arguments object for the query. If this is omitted,
+	 * the arguments will be `{}`.
+	 * @param options - A {@link WatchPaginatedQueryOptions} options object for this query.
+	 *
+	 * @returns The {@link PaginatedWatch} object.
+	 *
 	 * @internal
 	 */
-	_transition({ queries, paginatedQueries }, callNewListeners = false) {
-		const updatedQueries = [...queries.map((q) => q.token), ...paginatedQueries.map((q) => q.token)];
-		for (const queryInfo of this.listeners) {
-			const { callback, queryToken, onError, hasEverRun } = queryInfo;
-			const isPaginatedQuery = serializedQueryTokenIsPaginated(queryToken);
-			const hasResultReady = isPaginatedQuery
-				? !!this.paginatedClient.localQueryResultByToken(queryToken)
-				: this.client.hasLocalQueryResultByToken(queryToken);
-			if (updatedQueries.includes(queryToken) || (callNewListeners && !hasEverRun && hasResultReady)) {
-				queryInfo.hasEverRun = true;
-				let newValue;
-				try {
-					if (isPaginatedQuery) newValue = this.paginatedClient.localQueryResultByToken(queryToken);
-					else newValue = this.client.localQueryResultByToken(queryToken);
-				} catch (error) {
-					if (!(error instanceof Error)) throw error;
-					if (onError) onError(error, "Second argument to onUpdate onError is reserved for later use");
-					else Promise.reject(error);
-					continue;
-				}
-				callback(newValue, "Second argument to onUpdate callback is reserved for later use");
-			}
-		}
+	watchPaginatedQuery(query, args, options) {
+		const name = getFunctionName(query);
+		return {
+			onUpdate: (callback) => {
+				const { paginatedQueryToken, unsubscribe } = this.paginatedQueryClient.subscribe(name, args || {}, options);
+				const currentListeners = this.listeners.get(paginatedQueryToken);
+				if (currentListeners !== void 0) currentListeners.add(callback);
+				else this.listeners.set(paginatedQueryToken, /* @__PURE__ */ new Set([callback]));
+				return () => {
+					if (this.closed) return;
+					const currentListeners2 = this.listeners.get(paginatedQueryToken);
+					currentListeners2.delete(callback);
+					if (currentListeners2.size === 0) this.listeners.delete(paginatedQueryToken);
+					unsubscribe();
+				};
+			},
+			localQueryResult: () => {
+				return this.paginatedQueryClient.localQueryResult(name, args, options);
+			},
+		};
 	}
 	/**
 	 * Execute a mutation function.
 	 *
 	 * @param mutation - A {@link server.FunctionReference} for the public mutation
 	 * to run.
-	 * @param args - An arguments object for the mutation.
+	 * @param args - An arguments object for the mutation. If this is omitted,
+	 * the arguments will be `{}`.
 	 * @param options - A {@link MutationOptions} options object for the mutation.
 	 * @returns A promise of the mutation's result.
 	 */
-	async mutation(mutation, args, options) {
-		if (this.disabled) throw new Error("ConvexClient is disabled");
-		return await this.client.mutation(getFunctionName(mutation), args, options);
+	mutation(mutation, ...argsAndOptions) {
+		const [args, options] = argsAndOptions;
+		const name = getFunctionName(mutation);
+		return this.sync.mutation(name, args, options);
 	}
 	/**
 	 * Execute an action function.
 	 *
 	 * @param action - A {@link server.FunctionReference} for the public action
 	 * to run.
-	 * @param args - An arguments object for the action.
+	 * @param args - An arguments object for the action. If this is omitted,
+	 * the arguments will be `{}`.
 	 * @returns A promise of the action's result.
 	 */
-	async action(action, args) {
-		if (this.disabled) throw new Error("ConvexClient is disabled");
-		return await this.client.action(getFunctionName(action), args);
+	action(action, ...args) {
+		const name = getFunctionName(action);
+		return this.sync.action(name, ...args);
 	}
 	/**
 	 * Fetch a query result once.
 	 *
+	 * **Most application code should subscribe to queries instead, using
+	 * the {@link useQuery} hook.**
+	 *
 	 * @param query - A {@link server.FunctionReference} for the public query
 	 * to run.
-	 * @param args - An arguments object for the query.
+	 * @param args - An arguments object for the query. If this is omitted,
+	 * the arguments will be `{}`.
 	 * @returns A promise of the query's result.
 	 */
-	async query(query, args) {
-		if (this.disabled) throw new Error("ConvexClient is disabled");
-		const value = this.client.localQueryResult(getFunctionName(query), args);
-		if (value !== void 0) return Promise.resolve(value);
+	query(query, ...args) {
+		const watch = this.watchQuery(query, ...args);
+		const existingResult = watch.localQueryResult();
+		if (existingResult !== void 0) return Promise.resolve(existingResult);
 		return new Promise((resolve, reject) => {
-			const { unsubscribe } = this.onUpdate(
-				query,
-				args,
-				(value2) => {
-					unsubscribe();
-					resolve(value2);
-				},
-				(e) => {
-					unsubscribe();
+			const unsubscribe = watch.onUpdate(() => {
+				unsubscribe();
+				try {
+					resolve(watch.localQueryResult());
+				} catch (e) {
 					reject(e);
-				},
-			);
+				}
+			});
 		});
 	}
 	/**
@@ -3668,8 +4140,7 @@ var ConvexClient = class {
 	 * @returns The {@link ConnectionState} with the Convex backend.
 	 */
 	connectionState() {
-		if (this.disabled) throw new Error("ConvexClient is disabled");
-		return this.client.connectionState();
+		return this.sync.connectionState();
 	}
 	/**
 	 * Subscribe to the {@link ConnectionState} between the client and the Convex
@@ -3678,16 +4149,59 @@ var ConvexClient = class {
 	 * Subscribed callbacks will be called when any part of ConnectionState changes.
 	 * ConnectionState may grow in future versions (e.g. to provide a array of
 	 * inflight requests) in which case callbacks would be called more frequently.
+	 * ConnectionState may also *lose* properties in future versions as we figure
+	 * out what information is most useful. As such this API is considered unstable.
 	 *
 	 * @returns An unsubscribe function to stop listening.
 	 */
 	subscribeToConnectionState(cb) {
-		if (this.disabled) return () => {};
-		return this.client.subscribeToConnectionState(cb);
+		return this.sync.subscribeToConnectionState(cb);
+	}
+	/**
+	 * Get the logger for this client.
+	 *
+	 * @returns The {@link Logger} for this client.
+	 */
+	get logger() {
+		return this._logger;
+	}
+	/**
+	 * Close any network handles associated with this client and stop all subscriptions.
+	 *
+	 * Call this method when you're done with a {@link ConvexReactClient} to
+	 * dispose of its sockets and resources.
+	 *
+	 * @returns A `Promise` fulfilled when the connection has been completely closed.
+	 */
+	async close() {
+		this.closed = true;
+		this.listeners = /* @__PURE__ */ new Map();
+		if (this.cachedPaginatedQueryClient) this.cachedPaginatedQueryClient = void 0;
+		if (this.cachedSync) {
+			const sync = this.cachedSync;
+			this.cachedSync = void 0;
+			await sync.close();
+		}
+	}
+	/**
+	 * Handle transitions from both base client and paginated client.
+	 * This ensures all transitions are processed synchronously and in order.
+	 */
+	handleTransition(transition) {
+		const simple = transition.queries.map((q) => q.token);
+		const paginated = transition.paginatedQueries.map((q) => q.token);
+		this.transition([...simple, ...paginated]);
+	}
+	transition(updatedQueries) {
+		for (const queryToken of updatedQueries) {
+			const callbacks = this.listeners.get(queryToken);
+			if (callbacks) for (const callback of callbacks) callback();
+		}
 	}
 };
+import_react.createContext(void 0);
 //#endregion
-//#region node_modules/.pnpm/bonobo-plugin-sdk@https+++c_c95f3255918f79aa3ef805462c2d9088/node_modules/bonobo-plugin-sdk/frontend.js
+//#region node_modules/.pnpm/bonobo-plugin-sdk@https+++c_a6da93dee0016a796fbb12143f381683/node_modules/bonobo-plugin-sdk/frontend.js
 /**
  * Bonobo plugin frontend SDK — hand-written browser ESM, no build step.
  *
@@ -3695,7 +4209,7 @@ var ConvexClient = class {
  * The comments below say "page" for both kinds, the way the host app's own notes do. Any text a
  * MEMBER can end up reading must not: it has to say "plugin frame", because a member sitting in a
  * file view is not on a page and never read these notes. That covers every `new Error(...)` the SDK
- * rejects with, and the `message` it puts in a watch death — plugin code renders those verbatim.
+ * rejects with, and every `_nay.message` it resolves — plugin code renders those verbatim.
  *
  * The host handshake is a strict postMessage contract: the page announces `bonobo:ready`, the host
  * answers `bonobo:init` with a short-lived scoped session token (`plu_...`), the page context, and
@@ -3703,9 +4217,10 @@ var ConvexClient = class {
  *
  * - Public `/api/v1/*` calls go straight to the iframe's own origin with
  *   `Authorization: Bearer <token>`.
- * - The `data` and `members` APIs run on the page's OWN Convex client. The client authenticates
- *   with the plugin-session JWT the host delivers beside the session token, in `bonobo:init` and
- *   in every `bonobo:token`. A host that sends no JWT is covered by the same-origin
+ * - Plugin data runs on the page's OWN Convex client, a `ConvexReactClient` the page uses with the
+ *   `convex/react` hooks and the typed door references in `api`. The client authenticates with
+ *   the plugin-session JWT the host delivers beside the session token, in `bonobo:init` and in
+ *   every `bonobo:token`. A host that sends no JWT is covered by the same-origin
  *   `/plugins-ui/session-jwt` exchange. The host window is not part of that data path; it only
  *   answers session-token refreshes over the bridge.
  */
@@ -3728,43 +4243,6 @@ var REFRESH_DEADLINE_MS = 1e4;
 var AUTH_WAKE_POLL_MS = 1e3;
 var AUTH_WAKE_GAP_MS = 3e4;
 var NONCE_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-var DATA_MAX_NAME_LENGTH = 128;
-var DATA_MAX_KEY_PREFIX_LENGTH = 109;
-var DATA_MAX_LIST_PAGE_SIZE = 100;
-/**
- * Printable ASCII only (0x21-0x7E, no space) — a literal code range for the same reason.
- */
-var DATA_KEY_PREFIX_REGEX = /^[\x21-\x7e]+$/;
-/**
- * The host's roster page size. Its own ceiling, not the document one above: the roster is paged
- * because each row costs the server two document reads, and that has nothing to do with documents.
- */
-var MEMBERS_MAX_LIST_PAGE_SIZE = 100;
-/**
- * Max page-visible data watches (plain or window alike). One more answers a null death with
- * reason "capacity". These caps are courtesy bounds the page enforces on itself: the server
- * cannot meter reactive reads per session, so this is what keeps an honest page bounded.
- * 16, not 8: `scopes.watchMine` tells a plugin to open one ranged read per private scope, and
- * under 8 slots that guidance died at two scopes with a channel open (three windows plus a
- * thread watch). Slots and intervals are what shape a page. The server-subscription count
- * below is only a backstop for buggy or hostile pages — 16 slots × 6 intervals = 96, which
- * stays under 100.
- */
-var MAX_WATCH_SUBSCRIPTIONS = 16;
-/**
- * Key intervals one document window may hold, committed plus pending. Worst case per window:
- * 6 intervals × 100 docs × 16 KiB values ≈ 9.6 MiB flattened; a realistic chat channel stays
- * around 1 MiB.
- */
-var MAX_WINDOW_INTERVALS = 6;
-/**
- * Server subscriptions across the whole page: one per plain watch, one per window interval,
- * committed and pending alike. This is a backstop for a buggy or hostile page, not a budget
- * honest plugins design against. Every subscription re-reads the session's auth docs when a
- * write invalidates it, so this ceiling bounds that fan-out. Honest pages stay inside the
- * 16-slot and 6-interval caps above (96 server subscriptions at worst).
- */
-var MAX_PAGE_SERVER_SUBSCRIPTIONS = 100;
 /**
  * Reads a host theme off a bridge message.
  *
@@ -3806,61 +4284,6 @@ function apply_theme(theme) {
 	for (const [name, value] of Object.entries(theme.tokens)) root.style.setProperty(name, value);
 	root.classList.toggle("light", theme.mode === "light");
 	root.classList.toggle("dark", theme.mode === "dark");
-}
-/**
- * The deaths the SDK can explain. The server answers the same opaque null for every denial, so
- * these are what the SDK knows on its own: the store said no, the session it holds has run out, or
- * the connection is not working. A page shows a different thing for each — sign in again is useless
- * advice when the plugin was uninstalled.
- */
-var DEATH_DENIED = {
-	reason: "denied",
-	message: "This plugin no longer has access to its data",
-};
-var DEATH_SESSION_EXPIRED = {
-	reason: "session_expired",
-	message: "This plugin session expired",
-};
-var DEATH_UNAVAILABLE = {
-	reason: "unavailable",
-	message: "The plugin data connection is unavailable",
-};
-/**
- * Reads the exact principal-query shape before plugin code can use it. The Convex query is an
- * outside boundary even though its generated TypeScript type is known to the host app.
- *
- * @param {unknown} value
- * @returns {import("bonobo-plugin-sdk/frontend").BonoboUiScopePrincipal[] | null | undefined}
- */
-function read_scope_principals(value) {
-	if (value === null) return null;
-	if (!Array.isArray(value)) return;
-	/** @type {import("bonobo-plugin-sdk/frontend").BonoboUiScopePrincipal[]} */
-	const principals = [];
-	for (const entry of value) {
-		if (typeof entry !== "object" || entry === null) return;
-		const principal = entry;
-		if (
-			typeof principal.userId !== "string" ||
-			principal.userId === "" ||
-			(principal.level !== "member" && principal.level !== "manage")
-		)
-			return;
-		principals.push({
-			userId: principal.userId,
-			level: principal.level,
-		});
-	}
-	return principals;
-}
-/** @returns {import("bonobo-plugin-sdk/frontend").BonoboUiScopePrincipalListResult} */
-function scope_principals_unavailable() {
-	return {
-		_nay: {
-			name: "unavailable",
-			message: "Failed to read who can access this",
-		},
-	};
 }
 /**
  * Reads the invoke route's success body before plugin code can use it. The route is an outside
@@ -3960,1099 +4383,6 @@ function read_bridge_bootstrap() {
 	};
 }
 /**
- * Client-side pre-check for watch inputs. Returns a refusal message, or `null` when the inputs
- * pass. Input that passes here can still die on the server with the same bare null a denial gets.
- *
- * @param {{ collection: string, keyPrefix?: string, limit: number }} args
- */
-function validate_watch_inputs(args) {
-	if (args.collection.length === 0 || args.collection.length > DATA_MAX_NAME_LENGTH)
-		return `Collection names must be 1 to ${DATA_MAX_NAME_LENGTH} characters`;
-	if (
-		args.keyPrefix !== void 0 &&
-		(args.keyPrefix.length > DATA_MAX_KEY_PREFIX_LENGTH || !DATA_KEY_PREFIX_REGEX.test(args.keyPrefix))
-	)
-		return `Key prefixes must be 1 to ${DATA_MAX_KEY_PREFIX_LENGTH} printable ASCII characters`;
-	if (!Number.isInteger(args.limit) || args.limit < 1 || args.limit > DATA_MAX_LIST_PAGE_SIZE)
-		return `Watch limits must be integers from 1 to ${DATA_MAX_LIST_PAGE_SIZE}`;
-	return null;
-}
-/**
- * One key interval of a document window: one server subscription over
- * `(gt start .. lte end]`, where a `null` side is unbounded. `docs` is the last delivered array
- * and `previousFirstKey` the first key of the delivery before it — the only legal split
- * fencepost, because the current first key may be a brand-new arrival.
- *
- * @typedef {object} DocumentsWindowInterval
- * @property {string | null} start
- * @property {string | null} end
- * @property {import("bonobo-plugin-sdk").BonoboPublicDoc[] | null} docs
- * @property {boolean} truncated
- * @property {string | undefined} previousFirstKey
- * @property {import("bonobo-plugin-sdk").BonoboPublicDoc[] | null} previousDocs The array this
- *   interval held before its latest delivery. `handle_result` overwrites `docs` in place, so the
- *   outgoing array has to be kept here or it is gone by the time a swap is decided. Read in exactly
- *   one place — `snapshot_suppressed_docs`, when a pending swap starts.
- * @property {() => void} stop Dispose the watcher and release its server slot, exactly once.
- */
-/**
- * The page-derived watch args. Interval bounds are excluded from this shape on purpose: they are
- * fenceposts the window manager computes itself and passes as their own parameter, so caller
- * input can never smuggle a bound into a query.
- *
- * @typedef {{ collection: string, keyPrefix?: string, limit: number }} DataWatchQueryArgs
- * @typedef {{ keyStartExclusive?: string, keyEndInclusive?: string } | null} DataWatchBounds
- * @typedef {{ value: { docs: import("bonobo-plugin-sdk").BonoboPublicDoc[], truncated: boolean } | null } | { queryError: unknown }} DataWatchOutcome
- * @typedef {(queryArgs: DataWatchQueryArgs, bounds: DataWatchBounds, onResult: (outcome: DataWatchOutcome) => void) => ({ dispose: () => void } | null)} DataStartWatch
- */
-/**
- * The plugin doors by name, and the five write doors under their `data.*` operation names.
- *
- * @typedef {import("bonobo-plugin-sdk/convex-api").BonoboConvexApi["plugins_data"]} PluginDoors
- * @typedef {{ append: PluginDoors["user_append_document"], put: PluginDoors["user_put_document"], remove: PluginDoors["user_remove_document"], putOwned: PluginDoors["user_put_owned_document"], removeOwned: PluginDoors["user_remove_owned_document"] }} UserWriteDoors
- */
-/**
- * A reactive document window: an ordered list of disjoint, contiguous key intervals whose
- * fenceposts are keys the server itself delivered. The page sees one flattened doc list that
- * RETAINS loaded history — arrivals grow an interval and splits absorb the overflow, instead of
- * older docs sliding out of a single capped read.
- *
- * The window manager never compares keys. Fenceposts are picked positionally (an element of a
- * delivered array, or a bound stored at creation), because a JS string comparison disagrees with
- * the index's UTF-8 order on supplementary-plane characters. Everything order-related is the
- * server's job.
- *
- * Swap discipline: the committed interval list is the only flatten source. At most one pending
- * replacement (a split or a merge) exists at a time; the replaced intervals stay committed and
- * keep delivering until every replacement has a result, then the swap commits atomically in the
- * last delivery's callback. Re-seats bypass this: they keep the interval's delivered docs across
- * a dispose-and-create, so they are content-neutral by construction.
- *
- * Kill rule: any interval — committed or pending — answering `null` or erroring kills the whole
- * window: every watcher is disposed synchronously, the page gets exactly one `docs: null`, and
- * later callbacks are ignored. `dead` is checked before every watcher start so an in-flight
- * grow cannot resurrect a killed window.
- *
- * @param {{
- *   queryArgs: DataWatchQueryArgs,
- *   start_watch: DataStartWatch,
- *   acquire_server_slot: () => boolean,
- *   release_server_slot: () => void,
- *   page_at_ceiling: (requiredSlots?: number) => boolean,
- *   post_update: (payload: { docs: import("bonobo-plugin-sdk").BonoboPublicDoc[], hasMore: boolean, atCapacity: boolean, incomplete: boolean }) => void,
- *   on_dead: (info: { reason: string, message: string }) => void,
- *   session_expired: () => boolean,
- * }} deps
- */
-function create_documents_window(deps) {
-	const state = {
-		/** @type {DocumentsWindowInterval[]} */
-		intervals: [],
-		/**
-		 * `suppressedDocs` holds one flatten source per interval the swap suppresses, taken by value
-		 * when the swap starts and never updated afterwards. The suppressed intervals stay subscribed
-		 * until the commit, so without it a second delivery overwrites their `docs` and the flatten
-		 * grows a hole that `incomplete` is suppressed for.
-		 *
-		 * @type {{ from: number, removeCount: number, replacements: DocumentsWindowInterval[], suppressedDocs: (import("bonobo-plugin-sdk").BonoboPublicDoc[] | null)[] } | null}
-		 */
-		pending: null,
-		queuedLoadOlder: false,
-		/**
-		 * Sticky: set on the first re-seat, when older docs are first known to exist.
-		 */
-		bottomOpen: false,
-		loadingOlder: false,
-		/** @type {DocumentsWindowInterval | null} */
-		awaitingTail: null,
-		/**
-		 * One-shot: a refused load-older reports atCapacity on the next flush.
-		 */
-		forceAtCapacity: false,
-		flushScheduled: false,
-		/** @type {string | null} */
-		lastPayloadJson: null,
-		dead: false,
-	};
-	const stop_all = () => {
-		state.dead = true;
-		for (const interval of state.intervals) interval.stop();
-		for (const interval of state.pending?.replacements ?? []) interval.stop();
-		state.pending = null;
-	};
-	/** @param {{ reason: string, message: string }} info */
-	const kill = (info) => {
-		if (state.dead) return;
-		stop_all();
-		deps.on_dead(info);
-	};
-	/** @param {DocumentsWindowInterval} interval */
-	const start_interval = (interval) => {
-		if (state.dead || !deps.acquire_server_slot()) return false;
-		let stopped = false;
-		const subscription = deps.start_watch(
-			deps.queryArgs,
-			{
-				...(interval.start === null ? {} : { keyStartExclusive: interval.start }),
-				...(interval.end === null ? {} : { keyEndInclusive: interval.end }),
-			},
-			(outcome) => {
-				if (!stopped) handle_result(interval, outcome);
-			},
-		);
-		if (!subscription) {
-			deps.release_server_slot();
-			return false;
-		}
-		interval.stop = () => {
-			if (stopped) return;
-			stopped = true;
-			subscription.dispose();
-			deps.release_server_slot();
-		};
-		return true;
-	};
-	/**
-	 * Whether a truncated bounded interval can be split. The fencepost is the previously
-	 * delivered first key when one exists (so the left side isolates new arrivals); an interval
-	 * whose very first delivery already truncated uses its own last delivered key instead, so
-	 * the repeat-split that extends coverage does not stall waiting for a second delivery.
-	 * Degenerate splits are refused: a fencepost equal to a bound would recreate the parent's
-	 * exact args, and Convex dedupes identical-args subscriptions into one token, which would
-	 * double-flatten the range.
-	 *
-	 * @param {DocumentsWindowInterval} interval
-	 */
-	const split_fencepost = (interval) => {
-		if (interval.docs === null || interval.docs.length === 0) return null;
-		const fencepost = interval.previousFirstKey ?? interval.docs[interval.docs.length - 1].key;
-		if (fencepost === interval.start || fencepost === interval.end) return null;
-		if (new Set(interval.docs.map((doc) => doc.key)).size < 2) return null;
-		return fencepost;
-	};
-	const window_interval_count = () => state.intervals.length + (state.pending?.replacements.length ?? 0);
-	/**
-	 * The count the window will hold once the pending swap commits. `window_interval_count` is the
-	 * gross count — it counts the replacements while their parents are still committed — which is
-	 * what `reconcile` and the load-older reservation need, because those are asking whether another
-	 * subscription fits right now. `incomplete` asks a different question: whether a repair is still
-	 * possible after this swap lands, so it needs the net count. A split is +1 and a merge is -1.
-	 */
-	const settled_interval_count = () =>
-		state.intervals.length + (state.pending ? state.pending.replacements.length - state.pending.removeCount : 0);
-	/**
-	 * The flatten source for an interval a pending swap suppresses, taken once by value when the swap
-	 * starts. `interval.truncated` is the discriminator, and the two cases need opposite answers. A
-	 * split parent is truncated by construction, so its live array is the short one that would show a
-	 * hole — serve the array it held before that delivery. A merge member is never truncated: it
-	 * shrank because documents were physically deleted, so its live array is correct and serving the
-	 * retained one would put deleted documents back on screen for a round trip.
-	 *
-	 * The fallback covers an interval whose FIRST delivery truncated, which has no previous array.
-	 * Serving `[]` there would make every document in its range vanish for a round trip, which is the
-	 * failure this whole mechanism exists to prevent, so it declines to improve that case instead.
-	 *
-	 * @param {DocumentsWindowInterval} interval
-	 */
-	const snapshot_suppressed_docs = (interval) =>
-		interval.truncated ? (interval.previousDocs ?? interval.docs) : interval.docs;
-	/**
-	 * @param {number} index
-	 * @returns {import("bonobo-plugin-sdk").BonoboPublicDoc[] | null | undefined} The snapshot when a
-	 *   pending swap suppresses this index, `undefined` when it does not.
-	 */
-	const suppressed_docs_at = (index) => {
-		if (!state.pending) return;
-		const offset = index - state.pending.from;
-		if (offset < 0 || offset >= state.pending.removeCount) return;
-		return state.pending.suppressedDocs[offset];
-	};
-	const compute_payload = () => {
-		const docs = state.intervals.flatMap((interval, index) => {
-			const suppressed = suppressed_docs_at(index);
-			return (suppressed === void 0 ? interval.docs : suppressed) ?? [];
-		});
-		const last = state.intervals[state.intervals.length - 1];
-		return {
-			docs,
-			hasMore: state.bottomOpen && !(last !== void 0 && last.end === null && last.docs !== null && !last.truncated),
-			atCapacity: state.forceAtCapacity || state.intervals.length >= MAX_WINDOW_INTERVALS || deps.page_at_ceiling(),
-			incomplete: state.intervals.some((interval, index) => {
-				if (interval.end === null || !interval.truncated || interval.docs === null) return false;
-				if (state.pending && index >= state.pending.from && index < state.pending.from + state.pending.removeCount)
-					return false;
-				return (
-					split_fencepost(interval) === null ||
-					settled_interval_count() + 1 > MAX_WINDOW_INTERVALS ||
-					deps.page_at_ceiling(2)
-				);
-			}),
-		};
-	};
-	/**
-	 * One flush per microtask, and a post only when the WHOLE payload changed. Comparing docs
-	 * alone would swallow the hasMore transition, because a re-seat is content-neutral on purpose.
-	 */
-	const schedule_flush = () => {
-		if (state.flushScheduled || state.dead) return;
-		state.flushScheduled = true;
-		queueMicrotask(() => {
-			state.flushScheduled = false;
-			if (state.dead) return;
-			const payload = compute_payload();
-			state.forceAtCapacity = false;
-			const payloadJson = JSON.stringify(payload);
-			if (payloadJson === state.lastPayloadJson) return;
-			state.lastPayloadJson = payloadJson;
-			deps.post_update(payload);
-		});
-	};
-	const report_at_capacity = () => {
-		if (state.dead) return;
-		state.forceAtCapacity = true;
-		schedule_flush();
-	};
-	/**
-	 * Re-seat an unbounded interval that just delivered truncated: pin its lower side to its own
-	 * largest delivered key and restart the watcher over that closed range. The delivered docs
-	 * stay on the interval, so the swap is content-neutral and needs no pending machinery. From
-	 * here on, arrivals inside the range grow the interval instead of sliding docs out of a
-	 * capped read, and the range below the fencepost belongs to load-older.
-	 *
-	 * @param {DocumentsWindowInterval} interval
-	 */
-	const reseat_tail = (interval) => {
-		const docs = interval.docs;
-		const fencepost = docs[docs.length - 1].key;
-		interval.stop();
-		interval.end = fencepost;
-		interval.truncated = false;
-		state.bottomOpen = true;
-		if (!start_interval(interval)) kill(DEATH_UNAVAILABLE);
-	};
-	const execute_load_older = () => {
-		if (state.dead || state.loadingOlder || state.pending || !compute_payload().hasMore) return;
-		const last = state.intervals[state.intervals.length - 1];
-		if (!last || last.end === null) return;
-		if (window_interval_count() + 1 > MAX_WINDOW_INTERVALS || deps.page_at_ceiling()) {
-			report_at_capacity();
-			return;
-		}
-		/**
-		 * The new tail starts at the STORED bound, not at a delivered key — the last interval's
-		 * delivered array can be empty after physical deletes, but its bound was a real key once
-		 * and stays a valid fencepost.
-		 *
-		 * @type {DocumentsWindowInterval}
-		 */
-		const tail = {
-			start: last.end,
-			end: null,
-			docs: null,
-			truncated: false,
-			previousFirstKey: void 0,
-			previousDocs: null,
-			stop: () => {},
-		};
-		if (!start_interval(tail)) {
-			report_at_capacity();
-			return;
-		}
-		state.intervals.push(tail);
-		state.loadingOlder = true;
-		state.awaitingTail = tail;
-	};
-	/**
-	 * The single re-evaluation point after every delivery and commit: re-seat a truncated
-	 * unbounded tail, run a queued load-older, then start at most one pending swap — a split of
-	 * the first truncated bounded interval, or a merge of the first adjacent pair small enough
-	 * to share one subscription again.
-	 */
-	const reconcile = () => {
-		if (state.dead) return;
-		const last = state.intervals[state.intervals.length - 1];
-		if (last && last.end === null && last.docs !== null && last.truncated) {
-			reseat_tail(last);
-			if (state.dead) return;
-		}
-		if (state.pending) return;
-		if (state.queuedLoadOlder) {
-			state.queuedLoadOlder = false;
-			execute_load_older();
-		}
-		for (const [index, interval] of state.intervals.entries()) {
-			if (interval.end === null || !interval.truncated || interval.docs === null) continue;
-			const fencepost = split_fencepost(interval);
-			if (fencepost === null) continue;
-			if (window_interval_count() + 1 > MAX_WINDOW_INTERVALS) break;
-			/** @type {DocumentsWindowInterval} */
-			const left = {
-				start: interval.start,
-				end: fencepost,
-				docs: null,
-				truncated: false,
-				previousFirstKey: void 0,
-				previousDocs: null,
-				stop: () => {},
-			};
-			/** @type {DocumentsWindowInterval} */
-			const right = {
-				start: fencepost,
-				end: interval.end,
-				docs: null,
-				truncated: false,
-				previousFirstKey: void 0,
-				previousDocs: null,
-				stop: () => {},
-			};
-			if (!start_interval(left)) break;
-			if (!start_interval(right)) {
-				left.stop();
-				break;
-			}
-			state.pending = {
-				from: index,
-				removeCount: 1,
-				replacements: [left, right],
-				suppressedDocs: [snapshot_suppressed_docs(interval)],
-			};
-			return;
-		}
-		for (let index = 0; index + 1 < state.intervals.length; index += 1) {
-			const first = state.intervals[index];
-			const second = state.intervals[index + 1];
-			if (first.docs === null || second.docs === null) continue;
-			if (first.docs.length + second.docs.length >= deps.queryArgs.limit) continue;
-			/** @type {DocumentsWindowInterval} */
-			const merged = {
-				start: first.start,
-				end: second.end,
-				docs: null,
-				truncated: false,
-				previousFirstKey: void 0,
-				previousDocs: null,
-				stop: () => {},
-			};
-			if (!start_interval(merged)) break;
-			state.pending = {
-				from: index,
-				removeCount: 2,
-				replacements: [merged],
-				suppressedDocs: [snapshot_suppressed_docs(first), snapshot_suppressed_docs(second)],
-			};
-			return;
-		}
-	};
-	/**
-	 * All-or-nothing: the swap commits only once every replacement has a delivered result, so
-	 * the flattened list never shows a partially re-read range.
-	 */
-	const commit_pending = () => {
-		const pending = state.pending;
-		state.pending = null;
-		const replaced = state.intervals.splice(pending.from, pending.removeCount, ...pending.replacements);
-		for (const interval of replaced) interval.stop();
-		schedule_flush();
-		reconcile();
-	};
-	/**
-	 * @param {DocumentsWindowInterval} interval
-	 * @param {DataWatchOutcome} outcome
-	 */
-	const handle_result = (interval, outcome) => {
-		if (state.dead) return;
-		if ("queryError" in outcome) {
-			const info = deps.session_expired() ? DEATH_SESSION_EXPIRED : DEATH_UNAVAILABLE;
-			if (info === DEATH_UNAVAILABLE)
-				console.error("[bonobo-plugin-sdk] Plugin data window interval failed:", outcome.queryError);
-			kill(info);
-			return;
-		}
-		if (outcome.value === null) {
-			kill(DEATH_DENIED);
-			return;
-		}
-		interval.previousFirstKey = interval.docs?.[0]?.key;
-		interval.previousDocs = interval.docs;
-		interval.docs = outcome.value.docs;
-		interval.truncated = outcome.value.truncated;
-		if (state.awaitingTail === interval) {
-			state.awaitingTail = null;
-			state.loadingOlder = false;
-		}
-		if (state.pending?.replacements.includes(interval)) {
-			if (state.pending.replacements.every((replacement) => replacement.docs !== null)) commit_pending();
-			return;
-		}
-		schedule_flush();
-		reconcile();
-	};
-	/**
-	 * START: one unbounded subscription, exactly the shape of a plain capped watch. The window
-	 * machinery only engages when this first interval reports truncated.
-	 *
-	 * @type {DocumentsWindowInterval}
-	 */
-	const head = {
-		start: null,
-		end: null,
-		docs: null,
-		truncated: false,
-		previousFirstKey: void 0,
-		previousDocs: null,
-		stop: () => {},
-	};
-	if (!start_interval(head)) return null;
-	state.intervals.push(head);
-	return {
-		load_older: () => {
-			if (state.dead) return;
-			if (state.pending) {
-				state.queuedLoadOlder = true;
-				return;
-			}
-			execute_load_older();
-		},
-		dispose: () => {
-			if (state.dead) return;
-			stop_all();
-		},
-	};
-}
-/**
- * Builds the client's `data`, `members` and `scopes` APIs over an injectable reactive-read primitive.
- * `bonobo_ui_connect` wires it to the page's own Convex client. Plugin code should use the client
- * from `bonobo_ui_connect`, never call this directly — which is why this is NOT exported. The
- * package publishes `frontend.js` next to a hand-written `frontend.d.ts`, and nothing compares
- * the two (`typecheck` runs `tsc --skipLibCheck` over `frontend.js` alone), so an `export` here
- * would ship a runtime symbol the type surface does not declare. The SDK test suite reaches this
- * through `bonobo_ui_connect` and drives the seam from the fake Convex client instead.
- *
- * The `start_watch` dep starts one reactive read of the plugin's document store. `onResult`
- * receives `{ value }` (the query answer — `null` is the store's denial) or `{ queryError }`,
- * and results NEVER arrive synchronously from the start call, cached ones included. It returns
- * `{ dispose }`, or `null` when the read cannot start at all.
- *
- * @param {{
- *   start_watch: DataStartWatch,
- *   start_recent_watch: (queryArgs: import("convex/server").FunctionArgs<PluginDoors["watch_recent"]>, onResult: (outcome: { value: { docs: import("bonobo-plugin-sdk").BonoboPublicDoc[], truncated: boolean } | null } | { queryError: unknown }) => void) => { dispose: () => void } | null,
- *   start_changes_watch: (queryArgs: import("convex/server").FunctionArgs<PluginDoors["watch_changes"]>, onResult: (outcome: { value: { docs: import("bonobo-plugin-sdk").BonoboPublicDoc[], truncated: boolean } | null } | { queryError: unknown }) => void) => { dispose: () => void } | null,
- *   run_user_write: <Op extends keyof UserWriteDoors>(op: Op, fields: import("convex/server").FunctionArgs<UserWriteDoors[Op]>) => Promise<unknown>,
- *   resolve_member_display: (userIds: string[]) => Promise<{ members: Record<string, string | null> } | null>,
- *   list_members: (limit: number, cursor: string | null) => Promise<{ members: import("bonobo-plugin-sdk/frontend").BonoboUiMember[], cursor: string | null } | { refusal: string } | null>,
- *   run_manage_scope: (action: import("convex/server").FunctionArgs<PluginDoors["user_manage_scope"]>["action"]) => Promise<unknown>,
- *   list_scope_principals: (scopeId: string) => Promise<unknown>,
- *   start_my_scopes_watch: (onResult: (outcome: { value: import("bonobo-plugin-sdk/frontend").BonoboUiScope[] | null } | { queryError: unknown }) => void) => { dispose: () => void } | null,
- *   session_expired: () => boolean,
- * }} deps
- * @returns {{ data: import("bonobo-plugin-sdk/frontend").BonoboUiFrontendClient["data"], members: import("bonobo-plugin-sdk/frontend").BonoboUiFrontendClient["members"], scopes: import("bonobo-plugin-sdk/frontend").BonoboUiFrontendClient["scopes"] }}
- */
-function bonobo_ui_create_data_api(deps) {
-	/**
-	 * Live page-visible subscriptions: a plain watch and a document window each hold one entry.
-	 *
-	 * @type {Set<object>}
-	 */
-	const registrations = /* @__PURE__ */ new Set();
-	let serverSubscriptionCount = 0;
-	const acquire_server_slot = () => {
-		if (serverSubscriptionCount >= MAX_PAGE_SERVER_SUBSCRIPTIONS) return false;
-		serverSubscriptionCount += 1;
-		return true;
-	};
-	const release_server_slot = () => {
-		serverSubscriptionCount -= 1;
-	};
-	/**
-	 * `requiredSlots` defaults to 1, which is the same test as `count >= MAX`. A caller that is about
-	 * to start more than one watcher passes how many it needs, so it can tell "no room at all" apart
-	 * from "no room for the pair I am about to start".
-	 *
-	 * @param {number} [requiredSlots]
-	 */
-	const page_at_ceiling = (requiredSlots = 1) =>
-		serverSubscriptionCount + requiredSlots > MAX_PAGE_SERVER_SUBSCRIPTIONS;
-	/**
-	 * A death decided right in the watch call still must arrive like a real one: after the
-	 * caller has its unsubscribe handle, on the same async timing a cached server answer has.
-	 *
-	 * @param {(docs: null, info?: { reason: string, message: string }) => void} onUpdate
-	 * @param {{ reason: string, message: string }} [info]
-	 */
-	const deliver_death_async = (onUpdate, info) => {
-		setTimeout(() => {
-			if (info) onUpdate(null, info);
-			else onUpdate(null);
-		}, 0);
-	};
-	/** @param {(docs: null, info?: { reason: string, message: string }) => void} onUpdate */
-	const refuse_capacity = (onUpdate) => {
-		console.warn("[bonobo-plugin-sdk] Data watch refused, subscription cap reached");
-		deliver_death_async(onUpdate, {
-			reason: "capacity",
-			message: "Subscription limit reached for this plugin frame",
-		});
-	};
-	/**
-	 * Hold one page-visible subscription and turn every way it can end into the page's death
-	 * callback.
-	 *
-	 * Two doors need this and they must not drift: a missed `release_server_slot` leaks a slot the
-	 * page never gets back, and the frame then refuses later watches for no visible reason. `start`
-	 * owns what is being read; everything here is the bookkeeping around it.
-	 *
-	 * @template TValue, TPayload
-	 * @param {{
-	 *   start: (onOutcome: (outcome: { value: TValue | null } | { queryError: unknown }) => void) => { dispose: () => void } | null,
-	 *   onUpdate: (payload: TPayload | null, info?: { reason: string, message: string }) => void,
-	 *   deliver: (value: TValue) => TPayload,
-	 *   failureLabel: string,
-	 * }} args
-	 * @returns {() => void}
-	 */
-	const start_registered_watch = (args) => {
-		if (registrations.size >= MAX_WATCH_SUBSCRIPTIONS || page_at_ceiling()) {
-			refuse_capacity(args.onUpdate);
-			return () => {};
-		}
-		if (!acquire_server_slot()) {
-			refuse_capacity(args.onUpdate);
-			return () => {};
-		}
-		const entry = {};
-		registrations.add(entry);
-		/** @type {{ dispose: () => void } | null} */
-		let subscription = null;
-		/**
-		 * Death and unsubscribe share this: the registration entry decides liveness, so a
-		 * late delivery or a second unsubscribe after either path is a no-op.
-		 */
-		const stop = () => {
-			if (!registrations.delete(entry)) return;
-			subscription?.dispose();
-			release_server_slot();
-		};
-		subscription = args.start((outcome) => {
-			if (!registrations.has(entry)) return;
-			if ("queryError" in outcome) {
-				const info = deps.session_expired() ? DEATH_SESSION_EXPIRED : DEATH_UNAVAILABLE;
-				if (info === DEATH_UNAVAILABLE)
-					console.error(`[bonobo-plugin-sdk] Plugin ${args.failureLabel} failed:`, outcome.queryError);
-				stop();
-				args.onUpdate(null, info);
-				return;
-			}
-			if (outcome.value === null) {
-				stop();
-				args.onUpdate(null, DEATH_DENIED);
-				return;
-			}
-			args.onUpdate(args.deliver(outcome.value));
-		});
-		if (!subscription) {
-			stop();
-			console.error(`[bonobo-plugin-sdk] Plugin ${args.failureLabel} could not start`);
-			deliver_death_async(args.onUpdate);
-			return () => {};
-		}
-		return function unsubscribe() {
-			stop();
-		};
-	};
-	/** @type {import("bonobo-plugin-sdk/frontend").BonoboUiFrontendClient["data"]} */
-	const data = {
-		watch(opts, onUpdate) {
-			const invalid = validate_watch_inputs({
-				collection: opts.collection,
-				...(opts.keyPrefix === void 0 ? {} : { keyPrefix: opts.keyPrefix }),
-				limit: opts.limit,
-			});
-			if (invalid) {
-				deliver_death_async(onUpdate, {
-					reason: "invalid",
-					message: invalid,
-				});
-				return () => {};
-			}
-			return start_registered_watch({
-				start: (onOutcome) =>
-					deps.start_watch(
-						{
-							collection: opts.collection,
-							...(opts.keyPrefix === void 0 ? {} : { keyPrefix: opts.keyPrefix }),
-							limit: opts.limit,
-						},
-						null,
-						onOutcome,
-					),
-				onUpdate,
-				deliver: (value) => ({
-					docs: value.docs,
-					truncated: value.truncated,
-				}),
-				failureLabel: "data watch",
-			});
-		},
-		watchRecent(opts, onUpdate) {
-			const invalid = validate_watch_inputs({
-				collection: opts.collection,
-				limit: opts.limit,
-			});
-			if (invalid) {
-				deliver_death_async(onUpdate, {
-					reason: "invalid",
-					message: invalid,
-				});
-				return () => {};
-			}
-			return start_registered_watch({
-				start: (onOutcome) =>
-					deps.start_recent_watch(
-						{
-							collection: opts.collection,
-							limit: opts.limit,
-							...(opts.order === void 0 ? {} : { order: opts.order }),
-							...(opts.since === void 0 ? {} : { since: opts.since }),
-							...(opts.before === void 0 ? {} : { before: opts.before }),
-							...(opts.scopeId === void 0 ? {} : { scopeId: opts.scopeId }),
-						},
-						onOutcome,
-					),
-				onUpdate,
-				deliver: (value) => ({
-					docs: value.docs,
-					truncated: value.truncated,
-				}),
-				failureLabel: "recent watch",
-			});
-		},
-		watchChanges(opts, onUpdate) {
-			const invalid = validate_watch_inputs({
-				collection: opts.collection,
-				limit: opts.limit,
-			});
-			if (invalid) {
-				deliver_death_async(onUpdate, {
-					reason: "invalid",
-					message: invalid,
-				});
-				return () => {};
-			}
-			return start_registered_watch({
-				start: (onOutcome) =>
-					deps.start_changes_watch(
-						{
-							collection: opts.collection,
-							limit: opts.limit,
-							...(opts.updatedSince === void 0 ? {} : { updatedSince: opts.updatedSince }),
-							...(opts.scopeId === void 0 ? {} : { scopeId: opts.scopeId }),
-						},
-						onOutcome,
-					),
-				onUpdate,
-				deliver: (value) => ({
-					docs: value.docs,
-					truncated: value.truncated,
-				}),
-				failureLabel: "changes watch",
-			});
-		},
-		watchWindow(opts, onUpdate) {
-			const inertHandle = {
-				loadOlder() {},
-				unsubscribe() {},
-			};
-			const invalid = validate_watch_inputs({
-				collection: opts.collection,
-				...(opts.keyPrefix === void 0 ? {} : { keyPrefix: opts.keyPrefix }),
-				limit: opts.pageSize,
-			});
-			if (invalid) {
-				deliver_death_async(onUpdate, {
-					reason: "invalid",
-					message: invalid,
-				});
-				return inertHandle;
-			}
-			if (registrations.size >= MAX_WATCH_SUBSCRIPTIONS || page_at_ceiling()) {
-				refuse_capacity(onUpdate);
-				return inertHandle;
-			}
-			const entry = {};
-			registrations.add(entry);
-			const documentsWindow = create_documents_window({
-				queryArgs: {
-					collection: opts.collection,
-					...(opts.keyPrefix === void 0 ? {} : { keyPrefix: opts.keyPrefix }),
-					limit: opts.pageSize,
-				},
-				start_watch: deps.start_watch,
-				acquire_server_slot,
-				release_server_slot,
-				page_at_ceiling,
-				post_update: (payload) => onUpdate(payload),
-				on_dead: (info) => {
-					registrations.delete(entry);
-					onUpdate(null, info);
-				},
-				session_expired: deps.session_expired,
-			});
-			if (!documentsWindow) {
-				registrations.delete(entry);
-				console.error("[bonobo-plugin-sdk] Plugin data window could not start");
-				deliver_death_async(onUpdate);
-				return inertHandle;
-			}
-			return {
-				loadOlder() {
-					if (registrations.has(entry)) documentsWindow.load_older();
-				},
-				unsubscribe() {
-					if (registrations.delete(entry)) documentsWindow.dispose();
-				},
-			};
-		},
-		append(opts) {
-			return run_write("append", {
-				collection: opts.collection,
-				...(opts.keyPrefix === void 0 ? {} : { keyPrefix: opts.keyPrefix }),
-				value: opts.value,
-				clientRequestId: opts.clientRequestId,
-			});
-		},
-		put(opts) {
-			return run_write("put", {
-				collection: opts.collection,
-				key: opts.key,
-				value: opts.value,
-				...(opts.expectedRevision === void 0 ? {} : { expectedRevision: opts.expectedRevision }),
-			});
-		},
-		remove(opts) {
-			return run_write("remove", {
-				collection: opts.collection,
-				key: opts.key,
-				...(opts.expectedRevision === void 0 ? {} : { expectedRevision: opts.expectedRevision }),
-			});
-		},
-		putOwned(opts) {
-			return run_write("putOwned", {
-				collection: opts.collection,
-				key: opts.key,
-				value: opts.value,
-				...(opts.expectedRevision === void 0 ? {} : { expectedRevision: opts.expectedRevision }),
-			});
-		},
-		removeOwned(opts) {
-			return run_write("removeOwned", {
-				collection: opts.collection,
-				key: opts.key,
-				...(opts.expectedRevision === void 0 ? {} : { expectedRevision: opts.expectedRevision }),
-			});
-		},
-	};
-	/**
-	 * Every write resolves with the store door's Result as-is, `_yay` and `_nay` alike. A thrown
-	 * call (network loss, a payload the Convex client cannot serialize) resolves the stable
-	 * `unavailable` `_nay`; the real cause stays in the log.
-	 *
-	 * @template {keyof UserWriteDoors} Op
-	 * @param {Op} op
-	 * @param {import("convex/server").FunctionArgs<UserWriteDoors[Op]>} fields
-	 */
-	function run_write(op, fields) {
-		return Promise.resolve()
-			.then(() => deps.run_user_write(op, fields))
-			.catch((error) => {
-				console.error("[bonobo-plugin-sdk] Plugin data write failed:", error);
-				return {
-					_nay: {
-						name: "unavailable",
-						message: "Failed to write plugin data",
-					},
-				};
-			});
-	}
-	/** @type {import("bonobo-plugin-sdk/frontend").BonoboUiFrontendClient["members"]} */
-	const members = {
-		resolve(userIds) {
-			return Promise.resolve()
-				.then(() => deps.resolve_member_display(userIds))
-				.then((result) => {
-					return result === null ? {} : result.members;
-				})
-				.catch((error) => {
-					console.error("[bonobo-plugin-sdk] Failed to resolve plugin member names:", error);
-					return {};
-				});
-		},
-		list(opts) {
-			if (!Number.isInteger(opts.limit) || opts.limit < 1 || opts.limit > MEMBERS_MAX_LIST_PAGE_SIZE)
-				return Promise.resolve({
-					_nay: {
-						name: "invalid",
-						message: `Member list limits must be integers from 1 to ${MEMBERS_MAX_LIST_PAGE_SIZE}`,
-					},
-				});
-			return Promise.resolve()
-				.then(() => deps.list_members(opts.limit, opts.cursor ?? null))
-				.then((result) => {
-					if (result === null)
-						return {
-							_nay: {
-								name: DEATH_DENIED.reason,
-								message: "This plugin no longer has access to this workspace",
-							},
-						};
-					if ("refusal" in result)
-						return {
-							_nay: {
-								name: "not_consented",
-								message: "This workspace has not granted this plugin the member list",
-							},
-						};
-					return {
-						_yay: {
-							members: result.members,
-							cursor: result.cursor,
-						},
-					};
-				})
-				.catch((error) => {
-					const info = deps.session_expired() ? DEATH_SESSION_EXPIRED : DEATH_UNAVAILABLE;
-					if (info === DEATH_UNAVAILABLE)
-						console.error("[bonobo-plugin-sdk] Failed to list plugin workspace members:", error);
-					return {
-						_nay: {
-							name: info.reason,
-							message: info.message,
-						},
-					};
-				});
-		},
-	};
-	/**
-	 * Runs one scope change. Same resolve-never-reject contract as a data write, with a named
-	 * unavailable fallback so the page can tell an uncertain call from a backend refusal.
-	 *
-	 * @param {import("convex/server").FunctionArgs<PluginDoors["user_manage_scope"]>["action"]} action
-	 * @returns {Promise<import("bonobo-plugin-sdk/frontend").BonoboUiScopeResult>}
-	 */
-	function run_scope(action) {
-		return Promise.resolve()
-			.then(() => deps.run_manage_scope(action))
-			.then((result) => result)
-			.catch((error) => {
-				console.error("[bonobo-plugin-sdk] Plugin scope change failed:", error);
-				return {
-					_nay: {
-						name: "unavailable",
-						message: "Failed to change who can read this",
-					},
-				};
-			});
-	}
-	return {
-		data,
-		members,
-		scopes: {
-			create(opts) {
-				return run_scope({
-					kind: "create",
-					scopeId: opts.scopeId,
-					collections: opts.collections,
-					keyPrefix: opts.keyPrefix,
-				});
-			},
-			createWithDocument(opts) {
-				return run_scope({
-					kind: "create_with_document",
-					scopeId: opts.scopeId,
-					collections: opts.collections,
-					keyPrefix: opts.keyPrefix,
-					principals: opts.principals.map((principal) => ({
-						userId: as_user_id(principal.userId),
-						level: principal.level,
-					})),
-					document: opts.document,
-				});
-			},
-			setPrincipal(opts) {
-				return run_scope({
-					kind: "set_principal",
-					scopeId: opts.scopeId,
-					userId: as_user_id(opts.userId),
-					level: opts.level,
-				});
-			},
-			removePrincipal(opts) {
-				return run_scope({
-					kind: "remove_principal",
-					scopeId: opts.scopeId,
-					userId: as_user_id(opts.userId),
-					...(opts.expectedPrincipalCount === void 0 ? {} : { expectedPrincipalCount: opts.expectedPrincipalCount }),
-				});
-			},
-			delete(opts) {
-				return run_scope({
-					kind: "delete",
-					scopeId: opts.scopeId,
-					...(opts.expectedPrincipalCount === void 0 ? {} : { expectedPrincipalCount: opts.expectedPrincipalCount }),
-				});
-			},
-			listPrincipals(opts) {
-				return Promise.resolve()
-					.then(() => deps.list_scope_principals(opts.scopeId))
-					.then((value) => {
-						const principals = read_scope_principals(value);
-						if (principals === void 0) {
-							console.error("[bonobo-plugin-sdk] Plugin scope principals response was invalid");
-							return scope_principals_unavailable();
-						}
-						return { _yay: principals };
-					})
-					.catch((error) => {
-						console.error("[bonobo-plugin-sdk] Failed to read plugin scope principals:", error);
-						return scope_principals_unavailable();
-					});
-			},
-			watchMine(onUpdate) {
-				return start_registered_watch({
-					start: (onOutcome) => deps.start_my_scopes_watch(onOutcome),
-					onUpdate,
-					deliver: (value) => value,
-					failureLabel: "scope watch",
-				});
-			},
-		},
-	};
-}
-/**
- * Wires the data api's deps to the page's own Convex client.
- *
- * - `start_watch` adapts the client's `onUpdate`: the client delivers an already-cached result
- *   on a `setTimeout(0)`, so results never come back synchronously from the start call —
- *   exactly the delivery contract `bonobo_ui_create_data_api` requires. `onError` is always
- *   passed, because without it the client turns a query error into an unhandled rejection
- *   instead of a callback.
- * - The write and member doors read everything else they need from the session named by the
- *   JWT, so the args carry only the operation itself.
- *
- * @param {import("convex/browser").ConvexClient} convexClient
- */
-function create_convex_data_deps(convexClient) {
-	const doors = bonobo_convex_api.plugins_data;
-	/** @type {UserWriteDoors} */
-	const userWriteDoors = {
-		append: doors.user_append_document,
-		put: doors.user_put_document,
-		remove: doors.user_remove_document,
-		putOwned: doors.user_put_owned_document,
-		removeOwned: doors.user_remove_owned_document,
-	};
-	/** @type {DataStartWatch} */
-	const start_watch = (queryArgs, bounds, onResult) => {
-		try {
-			const unsubscribe = convexClient.onUpdate(
-				doors.watch_documents,
-				{
-					...queryArgs,
-					...(bounds?.keyStartExclusive === void 0 ? {} : { keyStartExclusive: bounds.keyStartExclusive }),
-					...(bounds?.keyEndInclusive === void 0 ? {} : { keyEndInclusive: bounds.keyEndInclusive }),
-				},
-				(value) => onResult({ value }),
-				(queryError) => onResult({ queryError }),
-			);
-			return { dispose: () => void unsubscribe() };
-		} catch {
-			return null;
-		}
-	};
-	return {
-		start_watch,
-		/**
-		 * @param {import("convex/server").FunctionArgs<PluginDoors["watch_recent"]>} queryArgs
-		 * @param {(outcome: { value: any } | { queryError: unknown }) => void} onResult
-		 */
-		start_recent_watch: (queryArgs, onResult) => {
-			try {
-				const unsubscribe = convexClient.onUpdate(
-					doors.watch_recent,
-					queryArgs,
-					(value) => onResult({ value }),
-					(queryError) => onResult({ queryError }),
-				);
-				return { dispose: () => void unsubscribe() };
-			} catch {
-				return null;
-			}
-		},
-		/**
-		 * @param {import("convex/server").FunctionArgs<PluginDoors["watch_changes"]>} queryArgs
-		 * @param {(outcome: { value: any } | { queryError: unknown }) => void} onResult
-		 */
-		start_changes_watch: (queryArgs, onResult) => {
-			try {
-				const unsubscribe = convexClient.onUpdate(
-					doors.watch_changes,
-					queryArgs,
-					(value) => onResult({ value }),
-					(queryError) => onResult({ queryError }),
-				);
-				return { dispose: () => void unsubscribe() };
-			} catch {
-				return null;
-			}
-		},
-		/**
-		 * @template {keyof UserWriteDoors} Op
-		 * @param {Op} op
-		 * @param {import("convex/server").FunctionArgs<UserWriteDoors[Op]>} fields
-		 */
-		run_user_write: (op, fields) => convexClient.mutation(userWriteDoors[op], fields),
-		/** @param {string[]} userIds */
-		resolve_member_display: (userIds) =>
-			convexClient.query(doors.resolve_member_display, { userIds: userIds.map(as_user_id) }),
-		/**
-		 * @param {number} limit
-		 * @param {string | null} cursor
-		 */
-		list_members: (limit, cursor) =>
-			convexClient.query(doors.list_members, {
-				limit,
-				cursor,
-			}),
-		/** @param {import("convex/server").FunctionArgs<PluginDoors["user_manage_scope"]>["action"]} action */
-		run_manage_scope: (action) => convexClient.mutation(doors.user_manage_scope, { action }),
-		/** @param {string} scopeId */
-		list_scope_principals: (scopeId) => convexClient.query(doors.watch_scope_principals, { scopeId }),
-		/** @param {(outcome: { value: any } | { queryError: unknown }) => void} onResult */
-		start_my_scopes_watch: (onResult) => {
-			try {
-				const unsubscribe = convexClient.onUpdate(
-					doors.watch_my_scopes,
-					{},
-					(value) => onResult({ value }),
-					(queryError) => onResult({ queryError }),
-				);
-				return { dispose: () => void unsubscribe() };
-			} catch {
-				return null;
-			}
-		},
-	};
-}
-/**
- * The SDK hands a page user ids as plain strings, and the doors type them as ids of the app's
- * `users` table. The cast changes nothing at runtime.
- *
- * @param {string} userId
- * @returns {import("convex/values").GenericId<"users">}
- */
-function as_user_id(userId) {
-	return userId;
-}
-/**
  * Connects the page to the embedding host app. It installs one shared `message` listener (for
  * init and token responses), posts `{ type: "bonobo:ready", nonce }` to `window.parent`,
  * and resolves with the frontend client when the host's `bonobo:init` arrives. `bonobo:init`
@@ -5072,7 +4402,7 @@ function as_user_id(userId) {
  *
  * On init the SDK also opens the page's own Convex client against the init's `convexUrl`. The
  * client authenticates with the plugin-session JWT the host delivers beside the session token;
- * the `data` and `members` APIs run on that client directly. A host that sends no JWT is covered
+ * the page calls the plugin doors on that client directly. A host that sends no JWT is covered
  * by the same-origin `/plugins-ui/session-jwt` exchange.
  *
  * Token lifetimes, so plugin code never handles refresh itself: the session token and its JWT
@@ -5235,7 +4565,7 @@ async function bonobo_ui_connect() {
 						console.error("[bonobo-plugin-sdk] Plugin backend invoke response was invalid");
 						return {
 							_nay: {
-								name: DEATH_UNAVAILABLE.reason,
+								name: "unavailable",
 								message: "Failed to run the plugin backend",
 							},
 						};
@@ -5267,13 +4597,13 @@ async function bonobo_ui_connect() {
 						if (Date.now() >= tokenExpiresAt)
 							return {
 								_nay: {
-									name: DEATH_SESSION_EXPIRED.reason,
-									message: DEATH_SESSION_EXPIRED.message,
+									name: "session_expired",
+									message: "This plugin session expired",
 								},
 							};
 						return {
 							_nay: {
-								name: DEATH_DENIED.reason,
+								name: "denied",
 								message: message ?? "This plugin may not run its backend here",
 							},
 						};
@@ -5288,14 +4618,14 @@ async function bonobo_ui_connect() {
 					if (Date.now() >= tokenExpiresAt)
 						return {
 							_nay: {
-								name: DEATH_SESSION_EXPIRED.reason,
-								message: DEATH_SESSION_EXPIRED.message,
+								name: "session_expired",
+								message: "This plugin session expired",
 							},
 						};
 					console.error("[bonobo-plugin-sdk] Plugin backend invoke failed:", error);
 					return {
 						_nay: {
-							name: DEATH_UNAVAILABLE.reason,
+							name: "unavailable",
 							message: "Failed to run the plugin backend",
 						},
 					};
@@ -5405,7 +4735,7 @@ async function bonobo_ui_connect() {
 				token = message.token;
 				tokenExpiresAt = message.tokenExpiresAt;
 				store_delivered_jwt(message);
-				const convexClient = new ConvexClient(message.convexUrl, {
+				const convexClient = new ConvexReactClient(message.convexUrl, {
 					expectAuth: true,
 					unsavedChangesWarning: false,
 					initialAuthTokenReuse: true,
@@ -5427,10 +4757,6 @@ async function bonobo_ui_connect() {
 				);
 				theme = read_theme(message.theme);
 				if (theme) apply_theme(theme);
-				const { data, members, scopes } = bonobo_ui_create_data_api({
-					...create_convex_data_deps(convexClient),
-					session_expired: () => Date.now() >= tokenExpiresAt,
-				});
 				resolve({
 					context: message.context,
 					apiOrigin,
@@ -5438,11 +4764,12 @@ async function bonobo_ui_connect() {
 					refreshToken,
 					fetchJson,
 					backend,
-					data,
-					members,
-					scopes,
 					convex: convexClient,
 					api: bonobo_convex_api,
+					session: {
+						expiresAt: () => tokenExpiresAt,
+						fetchJwt: fetch_convex_jwt,
+					},
 					theme: {
 						current: () => theme,
 						subscribe(onChange) {
@@ -5804,491 +5131,6 @@ var require_scheduler_production = /* @__PURE__ */ __commonJSMin((exports) => {
 //#region node_modules/.pnpm/scheduler@0.27.0/node_modules/scheduler/index.js
 var require_scheduler = /* @__PURE__ */ __commonJSMin((exports, module) => {
 	module.exports = require_scheduler_production();
-});
-//#endregion
-//#region node_modules/.pnpm/react@19.2.8/node_modules/react/cjs/react.production.js
-/**
- * @license React
- * react.production.js
- *
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-var require_react_production = /* @__PURE__ */ __commonJSMin((exports) => {
-	var REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element");
-	var REACT_PORTAL_TYPE = Symbol.for("react.portal");
-	var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
-	var REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode");
-	var REACT_PROFILER_TYPE = Symbol.for("react.profiler");
-	var REACT_CONSUMER_TYPE = Symbol.for("react.consumer");
-	var REACT_CONTEXT_TYPE = Symbol.for("react.context");
-	var REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref");
-	var REACT_SUSPENSE_TYPE = Symbol.for("react.suspense");
-	var REACT_MEMO_TYPE = Symbol.for("react.memo");
-	var REACT_LAZY_TYPE = Symbol.for("react.lazy");
-	var REACT_ACTIVITY_TYPE = Symbol.for("react.activity");
-	var MAYBE_ITERATOR_SYMBOL = Symbol.iterator;
-	function getIteratorFn(maybeIterable) {
-		if (null === maybeIterable || "object" !== typeof maybeIterable) return null;
-		maybeIterable = (MAYBE_ITERATOR_SYMBOL && maybeIterable[MAYBE_ITERATOR_SYMBOL]) || maybeIterable["@@iterator"];
-		return "function" === typeof maybeIterable ? maybeIterable : null;
-	}
-	var ReactNoopUpdateQueue = {
-		isMounted: function () {
-			return !1;
-		},
-		enqueueForceUpdate: function () {},
-		enqueueReplaceState: function () {},
-		enqueueSetState: function () {},
-	};
-	var assign = Object.assign;
-	var emptyObject = {};
-	function Component(props, context, updater) {
-		this.props = props;
-		this.context = context;
-		this.refs = emptyObject;
-		this.updater = updater || ReactNoopUpdateQueue;
-	}
-	Component.prototype.isReactComponent = {};
-	Component.prototype.setState = function (partialState, callback) {
-		if ("object" !== typeof partialState && "function" !== typeof partialState && null != partialState)
-			throw Error(
-				"takes an object of state variables to update or a function which returns an object of state variables.",
-			);
-		this.updater.enqueueSetState(this, partialState, callback, "setState");
-	};
-	Component.prototype.forceUpdate = function (callback) {
-		this.updater.enqueueForceUpdate(this, callback, "forceUpdate");
-	};
-	function ComponentDummy() {}
-	ComponentDummy.prototype = Component.prototype;
-	function PureComponent(props, context, updater) {
-		this.props = props;
-		this.context = context;
-		this.refs = emptyObject;
-		this.updater = updater || ReactNoopUpdateQueue;
-	}
-	var pureComponentPrototype = (PureComponent.prototype = new ComponentDummy());
-	pureComponentPrototype.constructor = PureComponent;
-	assign(pureComponentPrototype, Component.prototype);
-	pureComponentPrototype.isPureReactComponent = !0;
-	var isArrayImpl = Array.isArray;
-	function noop() {}
-	var ReactSharedInternals = {
-		H: null,
-		A: null,
-		T: null,
-		S: null,
-	};
-	var hasOwnProperty = Object.prototype.hasOwnProperty;
-	function ReactElement(type, key, props) {
-		var refProp = props.ref;
-		return {
-			$$typeof: REACT_ELEMENT_TYPE,
-			type,
-			key,
-			ref: void 0 !== refProp ? refProp : null,
-			props,
-		};
-	}
-	function cloneAndReplaceKey(oldElement, newKey) {
-		return ReactElement(oldElement.type, newKey, oldElement.props);
-	}
-	function isValidElement(object) {
-		return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
-	}
-	function escape(key) {
-		var escaperLookup = {
-			"=": "=0",
-			":": "=2",
-		};
-		return (
-			"$" +
-			key.replace(/[=:]/g, function (match) {
-				return escaperLookup[match];
-			})
-		);
-	}
-	var userProvidedKeyEscapeRegex = /\/+/g;
-	function getElementKey(element, index) {
-		return "object" === typeof element && null !== element && null != element.key
-			? escape("" + element.key)
-			: index.toString(36);
-	}
-	function resolveThenable(thenable) {
-		switch (thenable.status) {
-			case "fulfilled":
-				return thenable.value;
-			case "rejected":
-				throw thenable.reason;
-			default:
-				switch (
-					("string" === typeof thenable.status
-						? thenable.then(noop, noop)
-						: ((thenable.status = "pending"),
-							thenable.then(
-								function (fulfilledValue) {
-									"pending" === thenable.status && ((thenable.status = "fulfilled"), (thenable.value = fulfilledValue));
-								},
-								function (error) {
-									"pending" === thenable.status && ((thenable.status = "rejected"), (thenable.reason = error));
-								},
-							)),
-					thenable.status)
-				) {
-					case "fulfilled":
-						return thenable.value;
-					case "rejected":
-						throw thenable.reason;
-				}
-		}
-		throw thenable;
-	}
-	function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
-		var type = typeof children;
-		if ("undefined" === type || "boolean" === type) children = null;
-		var invokeCallback = !1;
-		if (null === children) invokeCallback = !0;
-		else
-			switch (type) {
-				case "bigint":
-				case "string":
-				case "number":
-					invokeCallback = !0;
-					break;
-				case "object":
-					switch (children.$$typeof) {
-						case REACT_ELEMENT_TYPE:
-						case REACT_PORTAL_TYPE:
-							invokeCallback = !0;
-							break;
-						case REACT_LAZY_TYPE:
-							return (
-								(invokeCallback = children._init),
-								mapIntoArray(invokeCallback(children._payload), array, escapedPrefix, nameSoFar, callback)
-							);
-					}
-			}
-		if (invokeCallback)
-			return (
-				(callback = callback(children)),
-				(invokeCallback = "" === nameSoFar ? "." + getElementKey(children, 0) : nameSoFar),
-				isArrayImpl(callback)
-					? ((escapedPrefix = ""),
-						null != invokeCallback && (escapedPrefix = invokeCallback.replace(userProvidedKeyEscapeRegex, "$&/") + "/"),
-						mapIntoArray(callback, array, escapedPrefix, "", function (c) {
-							return c;
-						}))
-					: null != callback &&
-						(isValidElement(callback) &&
-							(callback = cloneAndReplaceKey(
-								callback,
-								escapedPrefix +
-									(null == callback.key || (children && children.key === callback.key)
-										? ""
-										: ("" + callback.key).replace(userProvidedKeyEscapeRegex, "$&/") + "/") +
-									invokeCallback,
-							)),
-						array.push(callback)),
-				1
-			);
-		invokeCallback = 0;
-		var nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + ":";
-		if (isArrayImpl(children))
-			for (var i = 0; i < children.length; i++)
-				((nameSoFar = children[i]),
-					(type = nextNamePrefix + getElementKey(nameSoFar, i)),
-					(invokeCallback += mapIntoArray(nameSoFar, array, escapedPrefix, type, callback)));
-		else if (((i = getIteratorFn(children)), "function" === typeof i))
-			for (children = i.call(children), i = 0; !(nameSoFar = children.next()).done; )
-				((nameSoFar = nameSoFar.value),
-					(type = nextNamePrefix + getElementKey(nameSoFar, i++)),
-					(invokeCallback += mapIntoArray(nameSoFar, array, escapedPrefix, type, callback)));
-		else if ("object" === type) {
-			if ("function" === typeof children.then)
-				return mapIntoArray(resolveThenable(children), array, escapedPrefix, nameSoFar, callback);
-			array = String(children);
-			throw Error(
-				"Objects are not valid as a React child (found: " +
-					("[object Object]" === array ? "object with keys {" + Object.keys(children).join(", ") + "}" : array) +
-					"). If you meant to render a collection of children, use an array instead.",
-			);
-		}
-		return invokeCallback;
-	}
-	function mapChildren(children, func, context) {
-		if (null == children) return children;
-		var result = [],
-			count = 0;
-		mapIntoArray(children, result, "", "", function (child) {
-			return func.call(context, child, count++);
-		});
-		return result;
-	}
-	function lazyInitializer(payload) {
-		if (-1 === payload._status) {
-			var ctor = payload._result;
-			ctor = ctor();
-			ctor.then(
-				function (moduleObject) {
-					if (0 === payload._status || -1 === payload._status)
-						((payload._status = 1), (payload._result = moduleObject));
-				},
-				function (error) {
-					if (0 === payload._status || -1 === payload._status) ((payload._status = 2), (payload._result = error));
-				},
-			);
-			-1 === payload._status && ((payload._status = 0), (payload._result = ctor));
-		}
-		if (1 === payload._status) return payload._result.default;
-		throw payload._result;
-	}
-	var reportGlobalError =
-		"function" === typeof reportError
-			? reportError
-			: function (error) {
-					if ("object" === typeof window && "function" === typeof window.ErrorEvent) {
-						var event = new window.ErrorEvent("error", {
-							bubbles: !0,
-							cancelable: !0,
-							message:
-								"object" === typeof error && null !== error && "string" === typeof error.message
-									? String(error.message)
-									: String(error),
-							error,
-						});
-						if (!window.dispatchEvent(event)) return;
-					} else if ("object" === typeof process && "function" === typeof process.emit) {
-						process.emit("uncaughtException", error);
-						return;
-					}
-					console.error(error);
-				};
-	var Children = {
-		map: mapChildren,
-		forEach: function (children, forEachFunc, forEachContext) {
-			mapChildren(
-				children,
-				function () {
-					forEachFunc.apply(this, arguments);
-				},
-				forEachContext,
-			);
-		},
-		count: function (children) {
-			var n = 0;
-			mapChildren(children, function () {
-				n++;
-			});
-			return n;
-		},
-		toArray: function (children) {
-			return (
-				mapChildren(children, function (child) {
-					return child;
-				}) || []
-			);
-		},
-		only: function (children) {
-			if (!isValidElement(children))
-				throw Error("React.Children.only expected to receive a single React element child.");
-			return children;
-		},
-	};
-	exports.Activity = REACT_ACTIVITY_TYPE;
-	exports.Children = Children;
-	exports.Component = Component;
-	exports.Fragment = REACT_FRAGMENT_TYPE;
-	exports.Profiler = REACT_PROFILER_TYPE;
-	exports.PureComponent = PureComponent;
-	exports.StrictMode = REACT_STRICT_MODE_TYPE;
-	exports.Suspense = REACT_SUSPENSE_TYPE;
-	exports.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = ReactSharedInternals;
-	exports.__COMPILER_RUNTIME = {
-		__proto__: null,
-		c: function (size) {
-			return ReactSharedInternals.H.useMemoCache(size);
-		},
-	};
-	exports.cache = function (fn) {
-		return function () {
-			return fn.apply(null, arguments);
-		};
-	};
-	exports.cacheSignal = function () {
-		return null;
-	};
-	exports.cloneElement = function (element, config, children) {
-		if (null === element || void 0 === element)
-			throw Error("The argument must be a React element, but you passed " + element + ".");
-		var props = assign({}, element.props),
-			key = element.key;
-		if (null != config)
-			for (propName in (void 0 !== config.key && (key = "" + config.key), config))
-				!hasOwnProperty.call(config, propName) ||
-					"key" === propName ||
-					"__self" === propName ||
-					"__source" === propName ||
-					("ref" === propName && void 0 === config.ref) ||
-					(props[propName] = config[propName]);
-		var propName = arguments.length - 2;
-		if (1 === propName) props.children = children;
-		else if (1 < propName) {
-			for (var childArray = Array(propName), i = 0; i < propName; i++) childArray[i] = arguments[i + 2];
-			props.children = childArray;
-		}
-		return ReactElement(element.type, key, props);
-	};
-	exports.createContext = function (defaultValue) {
-		defaultValue = {
-			$$typeof: REACT_CONTEXT_TYPE,
-			_currentValue: defaultValue,
-			_currentValue2: defaultValue,
-			_threadCount: 0,
-			Provider: null,
-			Consumer: null,
-		};
-		defaultValue.Provider = defaultValue;
-		defaultValue.Consumer = {
-			$$typeof: REACT_CONSUMER_TYPE,
-			_context: defaultValue,
-		};
-		return defaultValue;
-	};
-	exports.createElement = function (type, config, children) {
-		var propName,
-			props = {},
-			key = null;
-		if (null != config)
-			for (propName in (void 0 !== config.key && (key = "" + config.key), config))
-				hasOwnProperty.call(config, propName) &&
-					"key" !== propName &&
-					"__self" !== propName &&
-					"__source" !== propName &&
-					(props[propName] = config[propName]);
-		var childrenLength = arguments.length - 2;
-		if (1 === childrenLength) props.children = children;
-		else if (1 < childrenLength) {
-			for (var childArray = Array(childrenLength), i = 0; i < childrenLength; i++) childArray[i] = arguments[i + 2];
-			props.children = childArray;
-		}
-		if (type && type.defaultProps)
-			for (propName in ((childrenLength = type.defaultProps), childrenLength))
-				void 0 === props[propName] && (props[propName] = childrenLength[propName]);
-		return ReactElement(type, key, props);
-	};
-	exports.createRef = function () {
-		return { current: null };
-	};
-	exports.forwardRef = function (render) {
-		return {
-			$$typeof: REACT_FORWARD_REF_TYPE,
-			render,
-		};
-	};
-	exports.isValidElement = isValidElement;
-	exports.lazy = function (ctor) {
-		return {
-			$$typeof: REACT_LAZY_TYPE,
-			_payload: {
-				_status: -1,
-				_result: ctor,
-			},
-			_init: lazyInitializer,
-		};
-	};
-	exports.memo = function (type, compare) {
-		return {
-			$$typeof: REACT_MEMO_TYPE,
-			type,
-			compare: void 0 === compare ? null : compare,
-		};
-	};
-	exports.startTransition = function (scope) {
-		var prevTransition = ReactSharedInternals.T,
-			currentTransition = {};
-		ReactSharedInternals.T = currentTransition;
-		try {
-			var returnValue = scope(),
-				onStartTransitionFinish = ReactSharedInternals.S;
-			null !== onStartTransitionFinish && onStartTransitionFinish(currentTransition, returnValue);
-			"object" === typeof returnValue &&
-				null !== returnValue &&
-				"function" === typeof returnValue.then &&
-				returnValue.then(noop, reportGlobalError);
-		} catch (error) {
-			reportGlobalError(error);
-		} finally {
-			(null !== prevTransition && null !== currentTransition.types && (prevTransition.types = currentTransition.types),
-				(ReactSharedInternals.T = prevTransition));
-		}
-	};
-	exports.unstable_useCacheRefresh = function () {
-		return ReactSharedInternals.H.useCacheRefresh();
-	};
-	exports.use = function (usable) {
-		return ReactSharedInternals.H.use(usable);
-	};
-	exports.useActionState = function (action, initialState, permalink) {
-		return ReactSharedInternals.H.useActionState(action, initialState, permalink);
-	};
-	exports.useCallback = function (callback, deps) {
-		return ReactSharedInternals.H.useCallback(callback, deps);
-	};
-	exports.useContext = function (Context) {
-		return ReactSharedInternals.H.useContext(Context);
-	};
-	exports.useDebugValue = function () {};
-	exports.useDeferredValue = function (value, initialValue) {
-		return ReactSharedInternals.H.useDeferredValue(value, initialValue);
-	};
-	exports.useEffect = function (create, deps) {
-		return ReactSharedInternals.H.useEffect(create, deps);
-	};
-	exports.useEffectEvent = function (callback) {
-		return ReactSharedInternals.H.useEffectEvent(callback);
-	};
-	exports.useId = function () {
-		return ReactSharedInternals.H.useId();
-	};
-	exports.useImperativeHandle = function (ref, create, deps) {
-		return ReactSharedInternals.H.useImperativeHandle(ref, create, deps);
-	};
-	exports.useInsertionEffect = function (create, deps) {
-		return ReactSharedInternals.H.useInsertionEffect(create, deps);
-	};
-	exports.useLayoutEffect = function (create, deps) {
-		return ReactSharedInternals.H.useLayoutEffect(create, deps);
-	};
-	exports.useMemo = function (create, deps) {
-		return ReactSharedInternals.H.useMemo(create, deps);
-	};
-	exports.useOptimistic = function (passthrough, reducer) {
-		return ReactSharedInternals.H.useOptimistic(passthrough, reducer);
-	};
-	exports.useReducer = function (reducer, initialArg, init) {
-		return ReactSharedInternals.H.useReducer(reducer, initialArg, init);
-	};
-	exports.useRef = function (initialValue) {
-		return ReactSharedInternals.H.useRef(initialValue);
-	};
-	exports.useState = function (initialState) {
-		return ReactSharedInternals.H.useState(initialState);
-	};
-	exports.useSyncExternalStore = function (subscribe, getSnapshot, getServerSnapshot) {
-		return ReactSharedInternals.H.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-	};
-	exports.useTransition = function () {
-		return ReactSharedInternals.H.useTransition();
-	};
-	exports.version = "19.2.8";
-});
-//#endregion
-//#region node_modules/.pnpm/react@19.2.8/node_modules/react/index.js
-var require_react = /* @__PURE__ */ __commonJSMin((exports, module) => {
-	module.exports = require_react_production();
 });
 //#endregion
 //#region node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/cjs/react-dom.production.js
@@ -19525,8 +18367,8 @@ var require_react_dom_client_production = /* @__PURE__ */ __commonJSMin((exports
 	};
 });
 //#endregion
-//#region node_modules/.pnpm/react-dom@19.2.8_react@19.2.8/node_modules/react-dom/client.js
-var require_client = /* @__PURE__ */ __commonJSMin((exports, module) => {
+//#region src/retry.ts
+var import_client = /* @__PURE__ */ __commonJSMin((exports, module) => {
 	function checkDCE() {
 		if (
 			typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === "undefined" ||
@@ -19541,11 +18383,7 @@ var require_client = /* @__PURE__ */ __commonJSMin((exports, module) => {
 	}
 	checkDCE();
 	module.exports = require_react_dom_client_production();
-});
-//#endregion
-//#region src/retry.ts
-var import_react = require_react();
-var import_client = require_client();
+})();
 /** Back-off delays after a 429, one per retry. */
 var RETRY_429_DELAYS_MS = [3e3, 6e3];
 function sleep(ms) {
