@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"name": "video-player",
 	"displayName": "Video Player",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Plays workspace video files in place when a video is opened.",
 	"compatibility": {
 		"bonoboPluginRuntime": "1"
@@ -28,8 +28,8 @@
 		},
 		{
 			"path": "dist/frontend/assets/index.js",
-			"sha256": "sha256:135991c9dd8a5a88baff5fa396415b63a27f61854f78945c71cbb5c4fc3b78e7",
-			"bytes": 533046,
+			"sha256": "sha256:bb192886f136a72942d8d46781d8cf4c5eecf1efe1835beda09ba06a11890592",
+			"bytes": 714219,
 			"contentType": "application/javascript"
 		},
 		{

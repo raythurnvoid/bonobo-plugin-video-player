@@ -9,6 +9,7 @@ function make_context(): BonoboUiFileViewContext {
 		pluginName: "video-player",
 		fileViewId: "player",
 		fileViewTitle: "Video player",
+		userId: "user_1",
 		organizationId: "org_1",
 		workspaceId: "ws_1",
 		file: {
