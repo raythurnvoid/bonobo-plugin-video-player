@@ -4201,7 +4201,7 @@ var ConvexReactClient = class {
 };
 import_react.createContext(void 0);
 //#endregion
-//#region node_modules/.pnpm/bonobo-plugin-sdk@https+++c_97bed73e73a661f9f88698e98454c428/node_modules/bonobo-plugin-sdk/frontend.js
+//#region node_modules/.pnpm/bonobo-plugin-sdk@https+++c_61daf36999ec414214896041822bb658/node_modules/bonobo-plugin-sdk/frontend.js
 /**
  * Bonobo plugin frontend SDK — hand-written browser ESM, no build step.
  *
@@ -4251,7 +4251,7 @@ var NONCE_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-
  * properties. This comes over postMessage, so every field is checked before the page can see it.
  *
  * @param {unknown} value
- * @returns {import("bonobo-plugin-sdk/frontend").BonoboUiTheme | null}
+ * @returns {import("bonobo-plugin-sdk/frontend").BonoboTheme | null}
  */
 function read_theme(value) {
 	if (typeof value !== "object" || value === null) return null;
@@ -4277,7 +4277,7 @@ function read_theme(value) {
  * app's `light` / `dark` class on the root too. A plugin stylesheet can then use
  * `var(--color-base-1-03)` and `.dark &` exactly as the app does, and no plugin has to copy this loop.
  *
- * @param {import("bonobo-plugin-sdk/frontend").BonoboUiTheme} theme
+ * @param {import("bonobo-plugin-sdk/frontend").BonoboTheme} theme
  */
 function apply_theme(theme) {
 	const root = document.documentElement;
@@ -4421,9 +4421,9 @@ function read_bridge_bootstrap() {
  * secrets API. A page that needs a secret calls its own backend through `backend.invoke`; the
  * backend run reads the secret with `env.BONOBO.secrets.get(name)`.
  *
- * @returns {Promise<import("bonobo-plugin-sdk/frontend").BonoboUiFrontendClient>}
+ * @returns {Promise<import("bonobo-plugin-sdk/frontend").BonoboClient>}
  */
-async function bonobo_ui_connect() {
+async function bonobo_connect() {
 	const { parentOrigin, nonce } = read_bridge_bootstrap();
 	let apiOrigin = "";
 	let token = "";
@@ -4435,10 +4435,10 @@ async function bonobo_ui_connect() {
 	 * host's theme. Each one is painted onto the document as it arrives. It stays null when the host
 	 * sends none, and then the document keeps the page's own colours.
 	 *
-	 * @type {import("bonobo-plugin-sdk/frontend").BonoboUiTheme | null}
+	 * @type {import("bonobo-plugin-sdk/frontend").BonoboTheme | null}
 	 */
 	let theme = null;
-	/** @type {Set<(theme: import("bonobo-plugin-sdk/frontend").BonoboUiTheme) => void>} */
+	/** @type {Set<(theme: import("bonobo-plugin-sdk/frontend").BonoboTheme) => void>} */
 	const themeSubscribers = /* @__PURE__ */ new Set();
 	/** @type {Map<string, { resolve: (token: string) => void, reject: (error: Error) => void, timeout: ReturnType<typeof setTimeout> }>} */
 	const pending_refreshes = /* @__PURE__ */ new Map();
@@ -4549,7 +4549,7 @@ async function bonobo_ui_connect() {
 		}
 		return response.json();
 	}
-	/** @type {import("bonobo-plugin-sdk/frontend").BonoboUiFrontendClient["backend"]} */
+	/** @type {import("bonobo-plugin-sdk/frontend").BonoboClient["backend"]} */
 	const backend = {
 		invoke(opts) {
 			return fetchJson("/api/v1/plugin-backend/invoke", {
@@ -18616,7 +18616,7 @@ var container = document.getElementById("root");
 if (!container) throw new Error("index.html is missing the #root element");
 var root = (0, import_client.createRoot)(container);
 root.render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(BootScreen, { message: "Connecting…" }));
-bonobo_ui_connect().then(
+bonobo_connect().then(
 	(client) => {
 		const context = client.context;
 		if (context.kind !== "file_view") {

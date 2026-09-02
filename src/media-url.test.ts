@@ -1,4 +1,4 @@
-import type { BonoboUiFrontendClient } from "bonobo-plugin-sdk/frontend";
+import type { BonoboClient } from "bonobo-plugin-sdk/frontend";
 import { afterEach, expect, test, vi } from "vitest";
 import { create_media_url_manager, URL_EXPIRY_MARGIN_MS } from "./media-url";
 
@@ -37,7 +37,7 @@ function make_manager(nodeId = "n1") {
 		calls.push({ path, body: init.body, gate });
 		return gate.promise;
 	});
-	const media = create_media_url_manager({ fetchJson } as unknown as BonoboUiFrontendClient, nodeId);
+	const media = create_media_url_manager({ fetchJson } as unknown as BonoboClient, nodeId);
 	return { media, fetchJson, calls };
 }
 

@@ -1,9 +1,9 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import type { BonoboUiFileViewContext, BonoboUiFrontendClient } from "bonobo-plugin-sdk/frontend";
+import type { BonoboFileViewContext, BonoboClient } from "bonobo-plugin-sdk/frontend";
 import { afterEach, expect, test, vi } from "vitest";
 import { App } from "./app";
 
-function make_context(): BonoboUiFileViewContext {
+function make_context(): BonoboFileViewContext {
 	return {
 		kind: "file_view",
 		pluginName: "video-player",
@@ -21,8 +21,8 @@ function make_context(): BonoboUiFileViewContext {
 	};
 }
 
-function make_client(fetchJson: unknown): BonoboUiFrontendClient {
-	return { fetchJson } as unknown as BonoboUiFrontendClient;
+function make_client(fetchJson: unknown): BonoboClient {
+	return { fetchJson } as unknown as BonoboClient;
 }
 
 function url_response(url: string, expiresAt = Date.now() + 600_000) {

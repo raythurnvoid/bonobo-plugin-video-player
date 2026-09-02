@@ -1,9 +1,9 @@
-import type { BonoboUiFileViewContext, BonoboUiFrontendClient } from "bonobo-plugin-sdk/frontend";
+import type { BonoboFileViewContext, BonoboClient } from "bonobo-plugin-sdk/frontend";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { create_media_url_manager, type MediaUrl } from "./media-url";
 import { get_error_message } from "./retry";
 
-export function App(props: { client: BonoboUiFrontendClient; context: BonoboUiFileViewContext }) {
+export function App(props: { client: BonoboClient; context: BonoboFileViewContext }) {
 	const media = useMemo(
 		() => create_media_url_manager(props.client, props.context.file.fileNodeId),
 		[props.client, props.context.file.fileNodeId],

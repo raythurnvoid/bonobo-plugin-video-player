@@ -1,4 +1,4 @@
-import type { BonoboUiFrontendClient } from "bonobo-plugin-sdk/frontend";
+import type { BonoboClient } from "bonobo-plugin-sdk/frontend";
 import { fetch_json_with_429_retry } from "./retry";
 
 /** Signed URLs are re-requested when they are this close to `expiresAt`. */
@@ -27,7 +27,7 @@ export type MediaUrlManager = {
  * batches many nodes; the player needs only its one node, so this keeps the same cache, in-flight
  * dedup, and 3s/6s 429 back-off without the batching.
  */
-export function create_media_url_manager(client: BonoboUiFrontendClient, nodeId: string): MediaUrlManager {
+export function create_media_url_manager(client: BonoboClient, nodeId: string): MediaUrlManager {
 	let cached: MediaUrl | null = null;
 	let in_flight: Promise<MediaUrl> | null = null;
 
