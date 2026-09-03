@@ -136,3 +136,25 @@ test("a refused request rejects with the route's own sentence and allows a retry
 	calls[1].gate.resolve(download_url_response("n1", "u-2", Date.now() + 600_000));
 	expect((await retry).url).toBe("u-2");
 });
+
+test("a 5xx rejects with a sentence naming the door", async () => {
+	// Since SDK 0.18.0 a 5xx resolves like any other answer, and a gateway sends HTML, so the
+	// body is null. Without the status check the member would see a TypeError text.
+	const { media, calls } = make_manager();
+
+	const failed = media.get_url();
+	calls[0].gate.resolve({ status: 502, body: null });
+
+	await expect(failed).rejects.toThrow("The download-urls door answered 502");
+});
+
+test("a 200 whose body did not parse rejects instead of reading an empty answer", async () => {
+	// This is the case the null check catches on its own: the status guard above it lets a 200
+	// through, and the body has no items to read.
+	const { media, calls } = make_manager();
+
+	const empty = media.get_url();
+	calls[0].gate.resolve({ status: 200, body: null });
+
+	await expect(empty).rejects.toThrow("The download-urls door answered 200 with a body that is not JSON");
+});
