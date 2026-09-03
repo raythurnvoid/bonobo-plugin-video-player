@@ -28,17 +28,16 @@ function make_client(fetchJson: unknown): BonoboClient {
 
 function url_response(url: string, expiresAt = Date.now() + 600_000) {
 	return {
-		items: [{ fileNodeId: "n1", url, expiresAt }],
-		errors: [],
-		truncated: false,
+		status: 200,
+		body: { items: [{ fileNodeId: "n1", url, expiresAt }], errors: [], truncated: false },
 	};
 }
 
 afterEach(cleanup);
 
 test("renders the file name and plays the context's node with one minted URL", async () => {
-	const fetchJson = vi.fn(async (_path: string, init: { body: { fileNodeIds: string[] } }) => {
-		expect(init.body.fileNodeIds).toEqual(["n1"]);
+	const fetchJson = vi.fn(async (_path: string, body: { fileNodeIds: string[] }) => {
+		expect(body.fileNodeIds).toEqual(["n1"]);
 		return url_response("u1");
 	});
 	const { container } = render(<App client={make_client(fetchJson)} context={make_context()} />);

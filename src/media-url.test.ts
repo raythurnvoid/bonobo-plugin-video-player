@@ -24,17 +24,16 @@ function deferred(): Deferred {
 
 function download_url_response(nodeId: string, url: string, expiresAt: number) {
 	return {
-		items: [{ fileNodeId: nodeId, url, expiresAt }],
-		errors: [],
-		truncated: false,
+		status: 200,
+		body: { items: [{ fileNodeId: nodeId, url, expiresAt }], errors: [], truncated: false },
 	};
 }
 
 function make_manager(nodeId = "n1") {
 	const calls: Array<{ path: string; body: { fileNodeIds: string[] }; gate: Deferred }> = [];
-	const fetchJson = vi.fn((path: string, init: { body: { fileNodeIds: string[] } }) => {
+	const fetchJson = vi.fn((path: string, body: { fileNodeIds: string[] }) => {
 		const gate = deferred();
-		calls.push({ path, body: init.body, gate });
+		calls.push({ path, body, gate });
 		return gate.promise;
 	});
 	const media = create_media_url_manager({ fetchJson } as unknown as BonoboClient, nodeId);
@@ -96,7 +95,10 @@ test("a failed request rejects with the server's per-file error and allows a ret
 	const { media, fetchJson, calls } = make_manager();
 
 	const first = media.get_url();
-	calls[0].gate.resolve({ items: [], errors: [{ fileNodeId: "n1", message: "Permission denied" }], truncated: false });
+	calls[0].gate.resolve({
+		status: 200,
+		body: { items: [], errors: [{ fileNodeId: "n1", message: "Permission denied" }], truncated: false },
+	});
 	await expect(first).rejects.toThrow("Permission denied");
 
 	const retry = media.get_fresh_url();
@@ -110,11 +112,27 @@ test("retries the same request after a 429 with the shared back-off", async () =
 	const { media, fetchJson, calls } = make_manager();
 
 	const first = media.get_url();
-	calls[0].gate.reject(Object.assign(new Error("rate limited"), { status: 429 }));
+	// A declared 429 is an answer now; the shared back-off reads it and retries the same node.
+	calls[0].gate.resolve({ status: 429, body: { message: "rate limited", retryAfterMs: 1_000 } });
 	await vi.advanceTimersByTimeAsync(3_000);
 	expect(fetchJson).toHaveBeenCalledTimes(2);
 	expect(calls[1].body.fileNodeIds).toEqual(["n1"]);
 
 	calls[1].gate.resolve(download_url_response("n1", "u-1", Date.now() + 600_000));
 	expect((await first).url).toBe("u-1");
+});
+
+test("a refused request rejects with the route's own sentence and allows a retry", async () => {
+	const { media, fetchJson, calls } = make_manager();
+
+	const refused = media.get_url();
+	// A declared refusal resolves now. Without reading the status the manager would take the
+	// refusal body for a 200 and report "Not found" instead of what the route said.
+	calls[0].gate.resolve({ status: 403, body: { message: "Permission denied" } });
+	await expect(refused).rejects.toThrow("Permission denied");
+
+	const retry = media.get_fresh_url();
+	expect(fetchJson).toHaveBeenCalledTimes(2);
+	calls[1].gate.resolve(download_url_response("n1", "u-2", Date.now() + 600_000));
+	expect((await retry).url).toBe("u-2");
 });

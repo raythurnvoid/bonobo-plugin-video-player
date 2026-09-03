@@ -1,5 +1,5 @@
 import type { BonoboClient } from "bonobo-plugin-sdk/frontend";
-import type { BonoboHttpApi } from "bonobo-plugin-sdk/http-api";
+import type { BonoboHttpApi, BonoboHttpResponse } from "bonobo-plugin-sdk/http-api";
 import { fetch_json_with_429_retry } from "./retry";
 
 /** Signed URLs are re-requested when they are this close to `expiresAt`. */
@@ -7,8 +7,19 @@ export const URL_EXPIRY_MARGIN_MS = 60_000;
 
 export type MediaUrl = { url: string; expiresAt: number };
 
-/** What `/api/v1/files/download-urls` answers, as the app's own route table declares it. */
-type DownloadUrlsAnswer = BonoboHttpApi["/api/v1/files/download-urls"]["POST"]["response"][200]["body"];
+/** What `/api/v1/files/download-urls` answers on a 200, as the app's own route table declares it. */
+type DownloadUrlsBody = BonoboHttpApi["/api/v1/files/download-urls"]["POST"]["response"][200]["body"];
+
+/**
+ * The 200 body, or a throw carrying the route's own refusal sentence. The caller turns it into
+ * the member-visible error, and every refusal this route declares carries `message`.
+ */
+function download_urls_body(answer: BonoboHttpResponse<"/api/v1/files/download-urls">): DownloadUrlsBody {
+	if (answer.status !== 200) {
+		throw new Error(answer.body.message);
+	}
+	return answer.body;
+}
 
 export type MediaUrlManager = {
 	/** Returns the cached URL while it is comfortably before expiry; otherwise mints a fresh one. */
@@ -35,9 +46,9 @@ export function create_media_url_manager(client: BonoboClient, nodeId: string): 
 		}
 		const request = (async () => {
 			try {
-				const response = (await fetch_json_with_429_retry(client, "/api/v1/files/download-urls", {
-					fileNodeIds: [nodeId],
-				})) as DownloadUrlsAnswer;
+				const response = download_urls_body(
+					await fetch_json_with_429_retry(client, "/api/v1/files/download-urls", { fileNodeIds: [nodeId] }),
+				);
 				const item = response.items[0];
 				if (!item) {
 					throw new Error(response.errors[0]?.message ?? "Not found");
