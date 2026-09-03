@@ -1,5 +1,6 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import type { BonoboFileViewContext, BonoboClient } from "bonobo-plugin-sdk/frontend";
+import type { GenericId } from "convex/values";
 import { afterEach, expect, test, vi } from "vitest";
 import { App } from "./app";
 
@@ -9,7 +10,7 @@ function make_context(): BonoboFileViewContext {
 		pluginName: "video-player",
 		fileViewId: "player",
 		fileViewTitle: "Video player",
-		userId: "user_1",
+		userId: "user_1" as GenericId<"users">,
 		organizationId: "org_1",
 		workspaceId: "ws_1",
 		file: {
