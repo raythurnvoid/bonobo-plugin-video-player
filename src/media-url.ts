@@ -1,4 +1,5 @@
 import type { BonoboClient } from "bonobo-plugin-sdk/frontend";
+import type { BonoboHttpApi } from "bonobo-plugin-sdk/http-api";
 import { fetch_json_with_429_retry } from "./retry";
 
 /** Signed URLs are re-requested when they are this close to `expiresAt`. */
@@ -6,11 +7,8 @@ export const URL_EXPIRY_MARGIN_MS = 60_000;
 
 export type MediaUrl = { url: string; expiresAt: number };
 
-type FilesDownloadUrlsResponse = {
-	items: Array<{ fileNodeId: string; url: string; expiresAt: number }>;
-	errors: Array<{ fileNodeId: string; message: string }>;
-	truncated: boolean;
-};
+/** What `/api/v1/files/download-urls` answers, as the app's own route table declares it. */
+type DownloadUrlsAnswer = BonoboHttpApi["/api/v1/files/download-urls"]["POST"]["response"][200]["body"];
 
 export type MediaUrlManager = {
 	/** Returns the cached URL while it is comfortably before expiry; otherwise mints a fresh one. */
@@ -39,7 +37,7 @@ export function create_media_url_manager(client: BonoboClient, nodeId: string): 
 			try {
 				const response = (await fetch_json_with_429_retry(client, "/api/v1/files/download-urls", {
 					fileNodeIds: [nodeId],
-				})) as FilesDownloadUrlsResponse;
+				})) as DownloadUrlsAnswer;
 				const item = response.items[0];
 				if (!item) {
 					throw new Error(response.errors[0]?.message ?? "Not found");
